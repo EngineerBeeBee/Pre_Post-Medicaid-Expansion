@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/checkup.log
+       log:  filepath.log
   log type:  text
  opened on:  30 Apr 2026, 04:42:12
 
@@ -23,7 +23,7 @@
 . 
 . *************************************************************************************************************************
 . 
-. global projACA  "/Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp"
+. global projACA  "/filepath"
 
 . global raw    "$projACA/raw"
 
@@ -496,7 +496,7 @@
   variable havhpad was double now byte
   (1,477,364,239 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2011.dta saved
+file filepath.dta saved
   variable _state was double now byte
   variable _geostr was double now byte
   variable _denstr2 was double now byte
@@ -836,7 +836,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
   variable craceorg was str6 now str5
   (1,095,031,474 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2012.dta saved
+file filepath saved
   variable _state was double now byte
   variable fmonth was double now byte
   variable dispcode was double now int
@@ -1151,7 +1151,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
   variable rcsbrac1 was double now byte
   (1,034,690,392 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2013.dta saved
+file filepath saved
   variable _state was double now byte
   variable fmonth was double now byte
   variable dispcode was double now int
@@ -1418,7 +1418,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
   variable rcsbrac1 was double now byte
   (845,223,816 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2014.dta saved
+file filepath saved
   variable _state was double now byte
   variable fmonth was double now byte
   variable dispcode was double now int
@@ -1733,7 +1733,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
   variable _aidtst3 was double now byte
   (932,796,528 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2015.dta saved
+file /filepath saved
   variable _state was double now byte
   variable fmonth was double now byte
   variable dispcode was double now int
@@ -1998,7 +1998,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
   variable pcdmdecn was str4 now str1
   (874,859,097 bytes saved)
   (all newnames==oldnames)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2016.dta saved
+file /filepath saved
 
 . 
 . *** Appending ***
@@ -2012,7 +2012,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . save "$raw/2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2011_2016.dta saved
+
 
 . 
 . 
@@ -2584,10 +2584,10 @@ Non-expansion |   134,351    112,270    131,257    115,853    112,571    113,943
 
 . 
 . save "$clean/r2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/clean/r2011_2016.dta saved
+
 
 . save "$temp/r2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/r2011_2016.dta saved
+
 
 . 
 . 
@@ -2613,7 +2613,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 . drop _merge
 
 . save "$temp/medicaid2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/medicaid2011_2016.dta saved
+
 
 . 
 . use "$temp/medicaid2011_2016", clear
@@ -2637,10 +2637,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . save "$temp/m2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/m2011_2016.dta saved
 
-. save "$master/m2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/m2011_2016.dta saved
 
 . 
 . 
@@ -2925,7 +2922,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . save "$master/d2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/d2011_2016.dta saved
+
 
 . 
 . *** Figures ***
@@ -2966,7 +2963,7 @@ Sampling weights: _llcpwt
 
 . 
 . graph export "$graphs/checkup_trend.png", replace width(2000)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend.png saved as PNG format
+
 
 . restore
 
@@ -2997,7 +2994,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . graph export "$graphs/checkup_trend_lowinc.png", replace width(2000)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_lowinc.png saved as PNG format
+
 
 . restore
 
@@ -3027,7 +3024,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . graph export "$graphs/checkup_trend_by_expansion.png", replace width(2000)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_expansion.png saved as PNG format
+
 
 . restore
 
@@ -3068,7 +3065,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . graph export "$graphs/checkup_trend_by_income.png", replace width(2000)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_income.png saved as PNG format
+
 
 . restore
 
@@ -3108,7 +3105,7 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . graph export "$graphs/checkup_trend_by_insuranceStat.png", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_insuranceStat.png saved as PNG format
+
 
 . restore
 
@@ -3326,7 +3323,7 @@ Sample size         228401                         72664                        
 >     mtitles("Pre" "Post" "Pre" "Post" "Pre" "Post") ///
 >         mgroups("Full sample" "Medicaid expansion" "Non-expansion", pattern(1 0 1 0 1 0)) ///
 >     title("Table 1 Descriptive Statistics: Low-Income Adults")
-(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/table1_prepost.csv)
+
 
 . 
 . 
@@ -3432,12 +3429,12 @@ Standard errors in parentheses
 
 . 
 . esttab lowinc using "$log/FullDiD_checkup_lowinc.csv", replace
-(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/FullDiD_checkup_lowinc.csv)
+
 
 . 
 . esttab lowinc using "$log/OnlyDiD_checkup_lowinc.csv", replace ///
 > keep(DiD) b(%9.3f) se(%9.3f) star(* 0.10 ** 0.05 *** 0.01)
-(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/OnlyDiD_checkup_lowinc.csv)
+
 
 . 
 . 
@@ -3544,7 +3541,7 @@ Absorbed degrees of freedom:
 >     keep(med_yr2011 med_yr2012 med_yr2014 med_yr2015 med_yr2016) ///
 >     b(%9.3f) se(%9.3f) star(* 0.10 ** 0.05 *** 0.01) ///
 >     mtitles("Event-study low-income group")
-(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/eventstudy_checkup_lowinc.csv)
+
 
 . 
 .         
@@ -3560,7 +3557,7 @@ Absorbed degrees of freedom:
 .         
 . 
 . save "$master/t2011_2016", replace
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/t2011_2016.dta saved
+
 
 . 
 . 
@@ -3640,14 +3637,14 @@ file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Driv
 
 . 
 . graph export "$graphs/eventstudy_checkup_lowinc.png", replace width(2000)
-file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/eventstudy_checkup_lowinc.png saved as PNG format
+
 
 . restore
 
 . 
 . log close
       name:  <unnamed>
-       log:  /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/checkup.log
+       log:  filepath
   log type:  text
  closed on:  30 Apr 2026, 04:47:07
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
