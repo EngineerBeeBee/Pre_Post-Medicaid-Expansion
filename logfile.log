@@ -1,0 +1,3653 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/checkup.log
+  log type:  text
+ opened on:  30 Apr 2026, 04:42:12
+
+. 
+. 
+. *************************************************************************************************************************
+. ***                                                                                                                   *** 
+. ***     Impact of the Affordable Care Act Medicaid Expansion on Routine Medical Checkups Among Low-Income Adults      ***
+. ***                                                                                                                   *** 
+. *************************************************************************************************************************
+. 
+. clear all
+
+. clear matrix
+
+. label drop _all
+
+. set more off
+
+. 
+. *************************************************************************************************************************
+. 
+. global projACA  "/Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp"
+
+. global raw    "$projACA/raw"
+
+. global clean  "$projACA/clean"
+
+. global temp   "$projACA/temp"
+
+. global master "$projACA/master"
+
+. global graphs "$projACA/graphs"
+
+. global log    "$projACA/log"
+
+. 
+. local keepvars id year imonth _state age sex race_g marital _educag income2 ///
+>     mscode checkup1 hlthpln1 _chldcnt employ _llcpwt _psu _ststr
+
+. 
+. *** Importing ***
+. *************************************************************************************************************************
+. 
+. foreach y of numlist 2011/2016 {
+  2.             
+.     import sasxport5 "$raw/LLCP`y'.XPT", clear
+  3.     compress
+  4.     rename *, lower
+  5.     
+.     gen year = `y'
+  6.     gen id = _n
+  7.     
+.     *** Year-specific Renaming ***
+.         if `y' == 2011 | `y' == 2012 {
+  8.         rename _race_g race_g
+  9.     }
+ 10.     else {
+ 11.         rename (_age80 _race_g1 employ1) (age race_g employ)
+ 12.     }
+ 13.     
+.     keep `keepvars'
+ 14.     save "$raw/`y'", replace
+ 15. }
+  variable _state was double now byte
+  variable _geostr was double now byte
+  variable _denstr2 was double now byte
+  variable precall was double now byte
+  variable repnum was double now long
+  variable repdepth was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable seqno was double now long
+  variable _psu was double now long
+  variable nattmpts was double now byte
+  variable nrecsel was double now long
+  variable ctelenum was double now byte
+  variable cellfon was double now byte
+  variable pvtresid was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable bphigh4 was double now byte
+  variable bpmeds was double now byte
+  variable bloodcho was double now byte
+  variable cholchk was double now byte
+  variable toldhi2 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable chcvison was double now byte
+  variable diabete3 was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable age was double now byte
+  variable hispanc2 was double now byte
+  variable orace2 was double now byte
+  variable veteran3 was double now byte
+  variable marital was double now byte
+  variable children was double now byte
+  variable educa was double now byte
+  variable employ was double now byte
+  variable income2 was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable ctycode1 was double now int
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable cpdemo2 was double now byte
+  variable cpdemo3 was double now byte
+  variable cpdemo4 was double now int
+  variable renthom1 was double now byte
+  variable sex was double now byte
+  variable pregnant was double now byte
+  variable fruitju1 was double now int
+  variable fruit1 was double now int
+  variable fvbeans was double now int
+  variable fvgreen was double now int
+  variable fvorang was double now int
+  variable vegetab1 was double now int
+  variable exerany2 was double now byte
+  variable exract01 was double now byte
+  variable exeroft1 was double now int
+  variable exerhmm1 was double now int
+  variable exract02 was double now byte
+  variable exeroft2 was double now int
+  variable exerhmm2 was double now int
+  variable strength was double now int
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable lmtjoin3 was double now byte
+  variable arthdis2 was double now byte
+  variable arthsocl was double now byte
+  variable joinpain was double now byte
+  variable seatbelt was double now byte
+  variable flushot5 was double now byte
+  variable flshtmy2 was double now long
+  variable imfvplac was double now byte
+  variable pneuvac3 was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable hivrisk3 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable diabage2 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable ssbsugar was double now int
+  variable ssbfruit was double now int
+  variable ssbcalri was double now byte
+  variable pfpprepr was double now byte
+  variable pfpprgnt was double now byte
+  variable pfpprvnt was double now byte
+  variable typcntr6 was double now byte
+  variable nobcuse4 was double now byte
+  variable fpchldf2 was double now byte
+  variable pfpvitmn was double now byte
+  variable vidfclt3 was double now byte
+  variable viredif3 was double now byte
+  variable viprfvs3 was double now byte
+  variable vinocre3 was double now byte
+  variable vieyexm3 was double now byte
+  variable viinsur3 was double now byte
+  variable victrct3 was double now byte
+  variable vigluma3 was double now byte
+  variable vimacdg3 was double now byte
+  variable qlrest2 was double now byte
+  variable sleptime was double now byte
+  variable slepsnor was double now byte
+  variable slepday was double now byte
+  variable slepdriv was double now byte
+  variable wrkhcf1 was double now byte
+  variable dircont1 was double now byte
+  variable drhpad1 was double now byte
+  variable harehab1 was double now byte
+  variable strehab1 was double now byte
+  variable cvdasprn was double now byte
+  variable aspunsaf was double now byte
+  variable bpeathbt was double now byte
+  variable bpsalt was double now byte
+  variable bpalchol was double now byte
+  variable bpexer was double now byte
+  variable bpeatadv was double now byte
+  variable bpsltadv was double now byte
+  variable bpalcadv was double now byte
+  variable bpexradv was double now byte
+  variable bpmedadv was double now byte
+  variable bphi2mr was double now byte
+  variable hasymp1 was double now byte
+  variable hasymp2 was double now byte
+  variable hasymp3 was double now byte
+  variable hasymp4 was double now byte
+  variable hasymp5 was double now byte
+  variable hasymp6 was double now byte
+  variable strsymp1 was double now byte
+  variable strsymp2 was double now byte
+  variable strsymp3 was double now byte
+  variable strsymp4 was double now byte
+  variable strsymp5 was double now byte
+  variable strsymp6 was double now byte
+  variable firstaid was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hadhyst2 was double now byte
+  variable pcpsarec was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsarsn was double now byte
+  variable pcpsaadv was double now byte
+  variable pcpsadis was double now byte
+  variable pcpsadec was double now byte
+  variable prostate was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable smcquitl was double now byte
+  variable smctryqt was double now byte
+  variable smccalqt was double now byte
+  variable smcprogq was double now byte
+  variable smccnslq was double now byte
+  variable smcmedqt was double now byte
+  variable smctimeq was double now byte
+  variable smcplanq was double now byte
+  variable shsnwrk1 was double now byte
+  variable shsnhom1 was double now byte
+  variable shsridev was double now byte
+  variable shsinpub was double now byte
+  variable shshomes was double now byte
+  variable shsvhicl was double now byte
+  variable shsalow1 was double now byte
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable arttoday was double now byte
+  variable arthwgt was double now byte
+  variable arthexer was double now byte
+  variable arthedu was double now byte
+  variable tnsarcv was double now byte
+  variable tnsarcnt was double now byte
+  variable tnsasht1 was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable shingle1 was double now byte
+  variable copdtest was double now byte
+  variable copdqol was double now byte
+  variable copddoc was double now byte
+  variable copdhosp was double now byte
+  variable copdmeds was double now byte
+  variable gpwelpr3 was double now byte
+  variable gp3dywtr was double now byte
+  variable gp3dyfd1 was double now byte
+  variable gp3dyprs was double now byte
+  variable gpbatrad was double now byte
+  variable gpflslit was double now byte
+  variable gpemrcm1 was double now byte
+  variable gpemrin1 was double now byte
+  variable gpvacpl1 was double now byte
+  variable gpmndevc was double now byte
+  variable gpnotev1 was double now byte
+  variable vhcombat was double now byte
+  variable vhdrptsd was double now byte
+  variable vhdrtbi was double now byte
+  variable vhcounsl was double now byte
+  variable vhtaklif was double now byte
+  variable vhsuicid was double now byte
+  variable rrclass2 was double now byte
+  variable rrcognt2 was double now byte
+  variable rratwrk2 was double now byte
+  variable rrhcare3 was double now byte
+  variable rrphysm2 was double now byte
+  variable rremtsm2 was double now byte
+  variable adpleasr was double now byte
+  variable addown was double now byte
+  variable adsleep was double now byte
+  variable adenergy was double now byte
+  variable adeat1 was double now byte
+  variable adfail was double now byte
+  variable adthink was double now byte
+  variable admove was double now byte
+  variable mistmnt was double now byte
+  variable adanxev was double now byte
+  variable cimemlos was double now byte
+  variable cinoadlt was double now byte
+  variable cirbiage was double now byte
+  variable cihowoft was double now byte
+  variable ciassist was double now byte
+  variable ciintfer was double now byte
+  variable cifamcar was double now byte
+  variable cihcprof was double now byte
+  variable cimeds was double now byte
+  variable cidiagaz was double now byte
+  variable scntmony was double now byte
+  variable scntmeal was double now byte
+  variable scntpaid was double now byte
+  variable scntwrk1 was double now byte
+  variable scntlpad was double now byte
+  variable scntlwk1 was double now byte
+  variable whrtst9 was double now byte
+  variable hivrdts2 was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable acedeprs was double now byte
+  variable acedrink was double now byte
+  variable acedrugs was double now byte
+  variable aceprisn was double now byte
+  variable acedivrc was double now byte
+  variable acepunch was double now byte
+  variable acehurt was double now byte
+  variable aceswear was double now byte
+  variable acetouch was double now byte
+  variable acetthem was double now byte
+  variable acehvsex was double now byte
+  variable rcsgendr was double now byte
+  variable rchislat was double now byte
+  variable rcsbrace was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable flushch2 was double now byte
+  variable chimrcve was double now byte
+  variable callback was double now byte
+  variable adltchld was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon2 was double now byte
+  variable cadult was double now byte
+  variable pvtresd2 was double now byte
+  variable cstate was double now byte
+  variable rspstate was double now byte
+  variable landline was double now byte
+  variable pctcell was double now int
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _region was double now byte
+  variable _impage was double now byte
+  variable _imprace was double now byte
+  variable _impnph was double now byte
+  variable o_state was double now byte
+  variable craceasc was double now int
+  variable _crace was double now byte
+  variable childage was double now int
+  variable _clcpm01 was double now byte
+  variable _clcpm02 was double now byte
+  variable _clcpm03 was double now byte
+  variable _clcpm04 was double now byte
+  variable _clcpm05 was double now byte
+  variable _llcpm01 was double now byte
+  variable _llcpm02 was double now byte
+  variable _llcpm03 was double now byte
+  variable _llcpm04 was double now byte
+  variable _llcpm05 was double now byte
+  variable _llcpm06 was double now byte
+  variable _llcpm07 was double now byte
+  variable _llcpm08 was double now byte
+  variable _llcpm09 was double now byte
+  variable _llcpm10 was double now int
+  variable _llcpm11 was double now byte
+  variable _llcpm12 was double now byte
+  variable _rfhlth was double now byte
+  variable _hcvu651 was double now byte
+  variable _rfhype5 was double now byte
+  variable _cholchk was double now byte
+  variable _rfchol was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable mraceasc was double now long
+  variable _prace was double now byte
+  variable _mrace was double now byte
+  variable race2 was double now byte
+  variable _raceg2 was double now byte
+  variable _racegr2 was double now byte
+  variable _race_g was double now byte
+  variable _cnrace was double now byte
+  variable _cnracec was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable ftjuda1_ was double now int
+  variable frutda1_ was double now int
+  variable beanday_ was double now int
+  variable grenday_ was double now int
+  variable orngday_ was double now int
+  variable vegeda1_ was double now int
+  variable _misfrtn was double now byte
+  variable _misvegn was double now byte
+  variable _frtresp was double now byte
+  variable _vegresp was double now byte
+  variable _frutsum was double now int
+  variable _vegesum was double now int
+  variable _frt16 was double now byte
+  variable _veg23 was double now byte
+  variable _fruitex was double now byte
+  variable _vegetex was double now byte
+  variable _totinda was double now byte
+  variable metval1_ was double now int
+  variable metval2_ was double now int
+  variable actint1_ was double now byte
+  variable actint2_ was double now byte
+  variable padur1_ was double now int
+  variable padur2_ was double now int
+  variable _minact1 was double now int
+  variable _minact2 was double now long
+  variable pamiss_ was double now byte
+  variable pamin1_ was double now long
+  variable pamin2_ was double now long
+  variable pamin_ was double now long
+  variable pavigm1_ was double now int
+  variable pavigm2_ was double now int
+  variable pavigmn_ was double now long
+  variable _pacat was double now byte
+  variable _paindex was double now byte
+  variable _pa150r1 was double now byte
+  variable _pa300r1 was double now byte
+  variable _pa3002l was double now byte
+  variable _pastrng was double now byte
+  variable _parec was double now byte
+  variable _pastaer was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _flshot5 was double now byte
+  variable _pneumo2 was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkdy4 was double now int
+  variable _drnkmo4 was double now int
+  variable _rfdrhv4 was double now byte
+  variable _rfdrmn4 was double now byte
+  variable _rfdrwm4 was double now byte
+  variable _aidtst3 was double now byte
+  variable havhpad was double now byte
+  (1,477,364,239 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2011.dta saved
+  variable _state was double now byte
+  variable _geostr was double now byte
+  variable _denstr2 was double now byte
+  variable precall was double now byte
+  variable repnum was double now long
+  variable repdepth was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable seqno was double now long
+  variable _psu was double now long
+  variable nattmpts was double now byte
+  variable nrecsel was double now long
+  variable ctelenum was double now byte
+  variable pvtresid was double now byte
+  variable colghous was double now byte
+  variable cellfon was double now byte
+  variable ladult was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable exerany2 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd1 was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable chcvisn1 was double now byte
+  variable diabete3 was double now byte
+  variable lastden3 was double now byte
+  variable rmvteth3 was double now byte
+  variable age was double now byte
+  variable hispanc2 was double now byte
+  variable orace2 was double now byte
+  variable veteran3 was double now byte
+  variable marital was double now byte
+  variable children was double now byte
+  variable educa was double now byte
+  variable employ was double now byte
+  variable income2 was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable ctycode1 was double now int
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable cpdemo4 was double now int
+  variable renthom1 was double now byte
+  variable sex was double now byte
+  variable pregnant was double now byte
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable flushot5 was double now byte
+  variable flshtmy2 was double now long
+  variable imfvplac was double now byte
+  variable pneuvac3 was double now byte
+  variable fall12mn was double now byte
+  variable fallinj2 was double now byte
+  variable seatbelt was double now byte
+  variable drnkdri2 was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hadhyst2 was double now byte
+  variable pcpsaad1 was double now byte
+  variable pcpsadi1 was double now byte
+  variable pcpsare1 was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsars1 was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable hivrisk3 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable diabage2 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable vidfclt2 was double now byte
+  variable viredif2 was double now byte
+  variable viprfvs2 was double now byte
+  variable vinocre2 was double now byte
+  variable vieyexm2 was double now byte
+  variable viinsur2 was double now byte
+  variable victrct4 was double now byte
+  variable vigluma2 was double now byte
+  variable vimacdg2 was double now byte
+  variable ssbsugr1 was double now int
+  variable ssbfrut1 was double now int
+  variable ssbcalri was double now byte
+  variable numburn2 was double now byte
+  variable qlrest2 was double now byte
+  variable sleptime was double now byte
+  variable slepsnor was double now byte
+  variable slepday was double now byte
+  variable slepdriv was double now byte
+  variable fruitju1 was double now int
+  variable fruit1 was double now int
+  variable fvbeans was double now int
+  variable fvgreen was double now int
+  variable fvorang was double now int
+  variable vegetab1 was double now int
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable wrkhcf1 was double now byte
+  variable dircont1 was double now byte
+  variable drhpad1 was double now byte
+  variable havhpad was double now byte
+  variable shingle1 was double now byte
+  variable tnsarcv was double now byte
+  variable tnsarcnt was double now byte
+  variable tnsasht1 was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable pcpsadec was double now byte
+  variable cncrdiff was double now byte
+  variable cncrage was double now byte
+  variable cncrtyp1 was double now byte
+  variable csrvtrt1 was double now byte
+  variable csrvdoc1 was double now byte
+  variable csrvsum was double now byte
+  variable csrvrtrn was double now byte
+  variable csrvinst was double now byte
+  variable csrvinsr was double now byte
+  variable csrvdein was double now byte
+  variable csrvclin was double now byte
+  variable csrvpain was double now byte
+  variable csrvctl1 was double now byte
+  variable rrclass2 was double now byte
+  variable rrcognt2 was double now byte
+  variable rratwrk2 was double now byte
+  variable rrhcare3 was double now byte
+  variable rrphysm2 was double now byte
+  variable rremtsm2 was double now byte
+  variable misnervs was double now byte
+  variable mishopls was double now byte
+  variable misrstls was double now byte
+  variable misdeprd was double now byte
+  variable miseffrt was double now byte
+  variable miswtles was double now byte
+  variable misnowrk was double now byte
+  variable mistmnt was double now byte
+  variable mistrhlp was double now byte
+  variable misphlpf was double now byte
+  variable scntmony was double now byte
+  variable scntmeal was double now byte
+  variable scntpaid was double now byte
+  variable scntwrk1 was double now byte
+  variable scntlpad was double now byte
+  variable scntlwk1 was double now byte
+  variable gpwelpr3 was double now byte
+  variable gp3dywtr was double now byte
+  variable gp3dyfd1 was double now byte
+  variable gp3dyprs was double now byte
+  variable gpbatrad was double now byte
+  variable gpflslit was double now byte
+  variable gpemrcm1 was double now byte
+  variable gpemrin1 was double now byte
+  variable gpvacpl1 was double now byte
+  variable gpmndevc was double now byte
+  variable gpnotev1 was double now byte
+  variable vhcombat was double now byte
+  variable vhdrptsd was double now byte
+  variable vhdrtbi was double now byte
+  variable vhcounsl was double now byte
+  variable vhtaklif was double now byte
+  variable vhsuicid was double now byte
+  variable copdtest was double now byte
+  variable copdqol was double now byte
+  variable copddoc was double now byte
+  variable copdhosp was double now byte
+  variable copdmeds was double now byte
+  variable acedeprs was double now byte
+  variable acedrink was double now byte
+  variable acedrugs was double now byte
+  variable aceprisn was double now byte
+  variable acedivrc was double now byte
+  variable acepunch was double now byte
+  variable acehurt was double now byte
+  variable aceswear was double now byte
+  variable acetouch was double now byte
+  variable acetthem was double now byte
+  variable acehvsex was double now byte
+  variable rcsgendr was double now byte
+  variable rchislat was double now byte
+  variable rcsbrace was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable flushch2 was double now byte
+  variable whrtst8 was double now byte
+  variable hivrdtst was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable callback was double now byte
+  variable adltchld was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon2 was double now byte
+  variable cadult was double now byte
+  variable pvtresd2 was double now byte
+  variable cclghous was double now byte
+  variable cstate was double now byte
+  variable rspstate was double now byte
+  variable landline was double now byte
+  variable pctcell was double now int
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _region was double now byte
+  variable _impage was double now byte
+  variable _imprace was double now byte
+  variable _impnph was double now byte
+  variable o_state was double now byte
+  variable craceasc was double now int
+  variable _crace was double now byte
+  variable childage was double now int
+  variable _clcpm01 was double now byte
+  variable _clcpm02 was double now byte
+  variable _clcpm03 was double now byte
+  variable _clcpm04 was double now byte
+  variable _clcpm05 was double now byte
+  variable _dualuse was double now byte
+  variable _llcpm01 was double now byte
+  variable _llcpm02 was double now byte
+  variable _llcpm03 was double now byte
+  variable _llcpm04 was double now byte
+  variable _llcpm05 was double now byte
+  variable _llcpm06 was double now byte
+  variable _llcpm07 was double now byte
+  variable _llcpm08 was double now byte
+  variable _llcpm09 was double now byte
+  variable _llcpm10 was double now int
+  variable _llcpm11 was double now byte
+  variable _llcpm12 was double now byte
+  variable _rfhlth was double now byte
+  variable _hcvu651 was double now byte
+  variable _totinda was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _exteth2 was double now byte
+  variable _alteth2 was double now byte
+  variable _denvst2 was double now byte
+  variable mraceasc was double now long
+  variable _prace was double now byte
+  variable _mrace was double now byte
+  variable race2 was double now byte
+  variable _raceg2 was double now byte
+  variable _racegr2 was double now byte
+  variable _race_g was double now byte
+  variable _cnrace was double now byte
+  variable _cnracec was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkdy4 was double now int
+  variable _drnkmo4 was double now int
+  variable _rfdrhv4 was double now byte
+  variable _rfdrmn4 was double now byte
+  variable _rfdrwm4 was double now byte
+  variable _flshot5 was double now byte
+  variable _pneumo2 was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _rfmam2y was double now byte
+  variable _mam502y was double now byte
+  variable _rfpap32 was double now byte
+  variable _rfpsa21 was double now byte
+  variable _rfblds2 was double now byte
+  variable _rfsigm2 was double now byte
+  variable _aidtst3 was double now byte
+  variable craceorg was str6 now str5
+  (1,095,031,474 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2012.dta saved
+  variable _state was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable seqno was double now long
+  variable _psu was double now long
+  variable ctelenum was double now byte
+  variable pvtresd1 was double now byte
+  variable colghous was double now byte
+  variable stateres was double now byte
+  variable cellfon3 was double now byte
+  variable ladult was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable sleptim1 was double now byte
+  variable bphigh4 was double now byte
+  variable bpmeds was double now byte
+  variable bloodcho was double now byte
+  variable cholchk was double now byte
+  variable toldhi2 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd1 was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable diabete3 was double now byte
+  variable veteran3 was double now byte
+  variable marital was double now byte
+  variable children was double now byte
+  variable educa was double now byte
+  variable employ1 was double now byte
+  variable income2 was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable cpdemo4 was double now int
+  variable internet was double now byte
+  variable renthom1 was double now byte
+  variable sex was double now byte
+  variable pregnant was double now byte
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable blind was double now byte
+  variable decide was double now byte
+  variable diffwalk was double now byte
+  variable diffdres was double now byte
+  variable diffalon was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable fruitju1 was double now int
+  variable fruit1 was double now int
+  variable fvbeans was double now int
+  variable fvgreen was double now int
+  variable fvorang was double now int
+  variable vegetab1 was double now int
+  variable exerany2 was double now byte
+  variable exract11 was double now byte
+  variable exeroft1 was double now int
+  variable exerhmm1 was double now int
+  variable exract21 was double now byte
+  variable exeroft2 was double now int
+  variable exerhmm2 was double now int
+  variable strength was double now int
+  variable lmtjoin3 was double now byte
+  variable arthdis2 was double now byte
+  variable arthsocl was double now byte
+  variable joinpain was double now byte
+  variable seatbelt was double now byte
+  variable flushot6 was double now byte
+  variable flshtmy2 was double now long
+  variable tetanus was double now byte
+  variable pneuvac3 was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable whrtst10 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable diabage2 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable medicare was double now byte
+  variable delaymed was double now byte
+  variable nocov121 was double now byte
+  variable lstcovrg was double now byte
+  variable drvisits was double now byte
+  variable medscost was double now byte
+  variable carercvd was double now byte
+  variable medbills was double now byte
+  variable ssbsugar was double now int
+  variable ssbfrut2 was double now int
+  variable wtchsalt was double now byte
+  variable longwtch was double now int
+  variable dradvise was double now byte
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable harehab1 was double now byte
+  variable strehab1 was double now byte
+  variable cvdasprn was double now byte
+  variable aspunsaf was double now byte
+  variable rlivpain was double now byte
+  variable rduchart was double now byte
+  variable rducstrk was double now byte
+  variable arttoday was double now byte
+  variable arthwgt was double now byte
+  variable arthexer was double now byte
+  variable arthedu was double now byte
+  variable imfvplac was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hadhyst2 was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable pcpsaad2 was double now byte
+  variable pcpsadi1 was double now byte
+  variable pcpsare1 was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsars1 was double now byte
+  variable pcpsade1 was double now byte
+  variable rrclass2 was double now byte
+  variable rrcognt2 was double now byte
+  variable rratwrk2 was double now byte
+  variable rrhcare3 was double now byte
+  variable rrphysm2 was double now byte
+  variable rremtsm2 was double now byte
+  variable misnervs was double now byte
+  variable mishopls was double now byte
+  variable misrstls was double now byte
+  variable misdeprd was double now byte
+  variable miseffrt was double now byte
+  variable miswtles was double now byte
+  variable misnowrk was double now byte
+  variable mistmnt was double now byte
+  variable mistrhlp was double now byte
+  variable misphlpf was double now byte
+  variable scntmony was double now byte
+  variable scntmeal was double now byte
+  variable scntpaid was double now byte
+  variable scntwrk1 was double now byte
+  variable scntlpad was double now byte
+  variable scntlwk1 was double now byte
+  variable scntvot1 was double now byte
+  variable rcsgendr was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon2 was double now byte
+  variable cadult was double now byte
+  variable pvtresd2 was double now byte
+  variable cclghous was double now byte
+  variable cstate was double now byte
+  variable landline was double now byte
+  variable pctcell was double now int
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _imprace was double now byte
+  variable _impnph was double now byte
+  variable _chispnc was double now byte
+  variable _crace1 was double now byte
+  variable _impcage was double now byte
+  variable _impcrac was double now byte
+  variable _impcsex was double now byte
+  variable _dualuse was double now byte
+  variable _rfhlth was double now byte
+  variable _hcvu651 was double now byte
+  variable _rfhype5 was double now byte
+  variable _cholchk was double now byte
+  variable _rfchol was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _prace1 was double now byte
+  variable _mrace1 was double now byte
+  variable _hispanc was double now byte
+  variable _race was double now byte
+  variable _raceg21 was double now byte
+  variable _racegr3 was double now byte
+  variable _race_g1 was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkdy4 was double now int
+  variable _drnkmo4 was double now int
+  variable _rfdrhv4 was double now byte
+  variable _rfdrmn4 was double now byte
+  variable _rfdrwm4 was double now byte
+  variable ftjuda1_ was double now int
+  variable frutda1_ was double now int
+  variable beanday_ was double now int
+  variable grenday_ was double now int
+  variable orngday_ was double now int
+  variable vegeda1_ was double now int
+  variable _misfrtn was double now byte
+  variable _misvegn was double now byte
+  variable _frtresp was double now byte
+  variable _vegresp was double now byte
+  variable _frutsum was double now int
+  variable _vegesum was double now int
+  variable _frtlt1 was double now byte
+  variable _veglt1 was double now byte
+  variable _frt16 was double now byte
+  variable _veg23 was double now byte
+  variable _fruitex was double now byte
+  variable _vegetex was double now byte
+  variable _totinda was double now byte
+  variable metvl11_ was double now int
+  variable metvl21_ was double now int
+  variable actin11_ was double now byte
+  variable actin21_ was double now byte
+  variable padur1_ was double now int
+  variable padur2_ was double now int
+  variable _minac11 was double now long
+  variable _minac21 was double now long
+  variable pamiss1_ was double now byte
+  variable pamin11_ was double now long
+  variable pamin21_ was double now long
+  variable pa1min_ was double now long
+  variable pavig11_ was double now long
+  variable pavig21_ was double now long
+  variable pa1vigm_ was double now long
+  variable _pacat1 was double now byte
+  variable _paindx1 was double now byte
+  variable _pa150r2 was double now byte
+  variable _pa300r2 was double now byte
+  variable _pa30021 was double now byte
+  variable _pastrng was double now byte
+  variable _parec1 was double now byte
+  variable _pastae1 was double now byte
+  variable _lmtact1 was double now byte
+  variable _lmtwrk1 was double now byte
+  variable _lmtscl1 was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _flshot6 was double now byte
+  variable _pneumo2 was double now byte
+  variable _aidtst3 was double now byte
+  variable _age80 was double now byte
+  variable _impeduc was double now byte
+  variable _impmrtl was double now byte
+  variable _imphome was double now byte
+  variable rcsbrac1 was double now byte
+  (1,034,690,392 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2013.dta saved
+  variable _state was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable seqno was double now long
+  variable _psu was double now long
+  variable ctelenum was double now byte
+  variable pvtresd1 was double now byte
+  variable colghous was double now byte
+  variable stateres was double now byte
+  variable ladult was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable exerany2 was double now byte
+  variable sleptim1 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd1 was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable diabete3 was double now byte
+  variable diabage2 was double now byte
+  variable lastden3 was double now byte
+  variable rmvteth3 was double now byte
+  variable veteran3 was double now byte
+  variable marital was double now byte
+  variable children was double now byte
+  variable educa was double now byte
+  variable employ1 was double now byte
+  variable income2 was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable internet was double now byte
+  variable renthom1 was double now byte
+  variable sex was double now byte
+  variable pregnant was double now byte
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable blind was double now byte
+  variable decide was double now byte
+  variable diffwalk was double now byte
+  variable diffdres was double now byte
+  variable diffalon was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable flushot6 was double now byte
+  variable flshtmy2 was double now long
+  variable pneuvac3 was double now byte
+  variable shingle2 was double now byte
+  variable fall12mn was double now byte
+  variable fallinj2 was double now byte
+  variable seatbelt was double now byte
+  variable drnkdri2 was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hadhyst2 was double now byte
+  variable pcpsaad2 was double now byte
+  variable pcpsadi1 was double now byte
+  variable pcpsare1 was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsars1 was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable whrtst10 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable medicare was double now byte
+  variable hlthcvr1 was double now byte
+  variable delaymed was double now byte
+  variable nocov121 was double now byte
+  variable lstcovrg was double now byte
+  variable drvisits was double now byte
+  variable medscost was double now byte
+  variable carercvd was double now byte
+  variable medbill1 was double now byte
+  variable asbialch was double now byte
+  variable asbidrnk was double now byte
+  variable asbibing was double now byte
+  variable asbiadvc was double now byte
+  variable asbirduc was double now byte
+  variable wtchsalt was double now byte
+  variable longwtch was double now int
+  variable dradvise was double now byte
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable imfvplac was double now byte
+  variable tetanus was double now byte
+  variable hpvtest was double now byte
+  variable hplsttst was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable cncrdiff was double now byte
+  variable cncrage was double now byte
+  variable cncrtyp1 was double now byte
+  variable csrvtrt1 was double now byte
+  variable csrvdoc1 was double now byte
+  variable csrvsum was double now byte
+  variable csrvrtrn was double now byte
+  variable csrvinst was double now byte
+  variable csrvinsr was double now byte
+  variable csrvdein was double now byte
+  variable csrvclin was double now byte
+  variable csrvpain was double now byte
+  variable csrvctl1 was double now byte
+  variable rrclass2 was double now byte
+  variable rrcognt2 was double now byte
+  variable rratwrk2 was double now byte
+  variable rrhcare3 was double now byte
+  variable rrphysm2 was double now byte
+  variable rremtsm2 was double now byte
+  variable scntmny1 was double now byte
+  variable scntmel1 was double now byte
+  variable scntpaid was double now byte
+  variable scntwrk1 was double now byte
+  variable scntlpad was double now byte
+  variable scntlwk1 was double now byte
+  variable scntvot1 was double now byte
+  variable sxorient was double now byte
+  variable trnsgndr was double now byte
+  variable rcsgendr was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon2 was double now byte
+  variable cadult was double now byte
+  variable pvtresd2 was double now byte
+  variable cclghous was double now byte
+  variable cstate was double now byte
+  variable landline was double now byte
+  variable hhadult was double now byte
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _age80 was double now byte
+  variable _imprace was double now byte
+  variable _impnph was double now byte
+  variable _chispnc was double now byte
+  variable _cprace was double now byte
+  variable _crace1 was double now byte
+  variable _impcage was double now byte
+  variable _impcrac was double now byte
+  variable _impcsex was double now byte
+  variable _dualuse was double now byte
+  variable _rfhlth was double now byte
+  variable _hcvu651 was double now byte
+  variable _totinda was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _exteth2 was double now byte
+  variable _alteth2 was double now byte
+  variable _denvst2 was double now byte
+  variable _prace1 was double now byte
+  variable _mrace1 was double now byte
+  variable _hispanc was double now byte
+  variable _race was double now byte
+  variable _raceg21 was double now byte
+  variable _racegr3 was double now byte
+  variable _race_g1 was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkdy4 was double now int
+  variable _drnkmo4 was double now int
+  variable _rfdrhv4 was double now byte
+  variable _rfdrmn4 was double now byte
+  variable _rfdrwm4 was double now byte
+  variable _flshot6 was double now byte
+  variable _pneumo2 was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _rfmam2y was double now byte
+  variable _mam502y was double now byte
+  variable _mam5021 was double now byte
+  variable _rfpap32 was double now byte
+  variable _rfpap33 was double now byte
+  variable _rfpsa21 was double now byte
+  variable _rfblds2 was double now byte
+  variable _rfblds3 was double now byte
+  variable _rfsigm2 was double now byte
+  variable _col10yr was double now byte
+  variable _hfob3yr was double now byte
+  variable _fs5yr was double now byte
+  variable _fobtfs was double now byte
+  variable _crcrec was double now byte
+  variable _aidtst3 was double now byte
+  variable _impeduc was double now byte
+  variable _impmrtl was double now byte
+  variable _imphome was double now byte
+  variable rcsbrac1 was double now byte
+  (845,223,816 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2014.dta saved
+  variable _state was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable seqno was double now long
+  variable _psu was double now long
+  variable ctelenum was double now byte
+  variable pvtresd1 was double now byte
+  variable colghous was double now byte
+  variable stateres was double now byte
+  variable cellfon3 was double now byte
+  variable ladult was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon2 was double now byte
+  variable cadult was double now byte
+  variable pvtresd2 was double now byte
+  variable cclghous was double now byte
+  variable cstate was double now byte
+  variable landline was double now byte
+  variable hhadult was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable bphigh4 was double now byte
+  variable bpmeds was double now byte
+  variable bloodcho was double now byte
+  variable cholchk was double now byte
+  variable toldhi2 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd1 was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable diabete3 was double now byte
+  variable diabage2 was double now byte
+  variable sex was double now byte
+  variable marital was double now byte
+  variable educa was double now byte
+  variable renthom1 was double now byte
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable veteran3 was double now byte
+  variable employ1 was double now byte
+  variable children was double now byte
+  variable income2 was double now byte
+  variable internet was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable pregnant was double now byte
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable blind was double now byte
+  variable decide was double now byte
+  variable diffwalk was double now byte
+  variable diffdres was double now byte
+  variable diffalon was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable fruitju1 was double now int
+  variable fruit1 was double now int
+  variable fvbeans was double now int
+  variable fvgreen was double now int
+  variable fvorang was double now int
+  variable vegetab1 was double now int
+  variable exerany2 was double now byte
+  variable exract11 was double now byte
+  variable exeroft1 was double now int
+  variable exerhmm1 was double now int
+  variable exract21 was double now byte
+  variable exeroft2 was double now int
+  variable exerhmm2 was double now int
+  variable strength was double now int
+  variable lmtjoin3 was double now byte
+  variable arthdis2 was double now byte
+  variable arthsocl was double now byte
+  variable joinpain was double now byte
+  variable seatbelt was double now byte
+  variable flushot6 was double now byte
+  variable flshtmy2 was double now long
+  variable imfvplac was double now byte
+  variable pneuvac3 was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable whrtst10 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable caregiv1 was double now byte
+  variable crgvrel1 was double now byte
+  variable crgvlng1 was double now byte
+  variable crgvhrs1 was double now byte
+  variable crgvprb1 was double now byte
+  variable crgvpers was double now byte
+  variable crgvhous was double now byte
+  variable crgvmst2 was double now byte
+  variable crgvexpt was double now byte
+  variable vidfclt2 was double now byte
+  variable viredif3 was double now byte
+  variable viprfvs2 was double now byte
+  variable vinocre2 was double now byte
+  variable vieyexm2 was double now byte
+  variable viinsur2 was double now byte
+  variable victrct4 was double now byte
+  variable vigluma2 was double now byte
+  variable vimacdg2 was double now byte
+  variable cimemlos was double now byte
+  variable cdhouse was double now byte
+  variable cdassist was double now byte
+  variable cdhelp was double now byte
+  variable cdsocial was double now byte
+  variable cddiscus was double now byte
+  variable wtchsalt was double now byte
+  variable longwtch was double now int
+  variable dradvise was double now byte
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable harehab1 was double now byte
+  variable strehab1 was double now byte
+  variable cvdasprn was double now byte
+  variable aspunsaf was double now byte
+  variable rlivpain was double now byte
+  variable rduchart was double now byte
+  variable rducstrk was double now byte
+  variable arttoday was double now byte
+  variable arthwgt was double now byte
+  variable arthexer was double now byte
+  variable arthedu was double now byte
+  variable tetanus was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable shingle2 was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hpvtest was double now byte
+  variable hplsttst was double now byte
+  variable hadhyst2 was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable pcpsaad2 was double now byte
+  variable pcpsadi1 was double now byte
+  variable pcpsare1 was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsars1 was double now byte
+  variable pcpsade1 was double now byte
+  variable scntmny1 was double now byte
+  variable scntmel1 was double now byte
+  variable scntpaid was double now byte
+  variable scntwrk1 was double now byte
+  variable scntlpad was double now byte
+  variable scntlwk1 was double now byte
+  variable sxorient was double now byte
+  variable trnsgndr was double now byte
+  variable rcsgendr was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable adpleasr was double now byte
+  variable addown was double now byte
+  variable adsleep was double now byte
+  variable adenergy was double now byte
+  variable adeat1 was double now byte
+  variable adfail was double now byte
+  variable adthink was double now byte
+  variable admove was double now byte
+  variable mistmnt was double now byte
+  variable adanxev was double now byte
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _chispnc was double now byte
+  variable _crace1 was double now byte
+  variable _cprace was double now byte
+  variable _dualuse was double now byte
+  variable _rfhlth was double now byte
+  variable _hcvu651 was double now byte
+  variable _rfhype5 was double now byte
+  variable _cholchk was double now byte
+  variable _rfchol was double now byte
+  variable _michd was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _prace1 was double now byte
+  variable _mrace1 was double now byte
+  variable _hispanc was double now byte
+  variable _race was double now byte
+  variable _raceg21 was double now byte
+  variable _racegr3 was double now byte
+  variable _race_g1 was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age80 was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkwek was double now long
+  variable _rfdrhv5 was double now byte
+  variable ftjuda1_ was double now int
+  variable frutda1_ was double now int
+  variable beanday_ was double now int
+  variable grenday_ was double now int
+  variable orngday_ was double now int
+  variable vegeda1_ was double now int
+  variable _misfrtn was double now byte
+  variable _misvegn was double now byte
+  variable _frtresp was double now byte
+  variable _vegresp was double now byte
+  variable _frutsum was double now int
+  variable _vegesum was double now int
+  variable _frtlt1 was double now byte
+  variable _veglt1 was double now byte
+  variable _frt16 was double now byte
+  variable _veg23 was double now byte
+  variable _fruitex was double now byte
+  variable _vegetex was double now byte
+  variable _totinda was double now byte
+  variable metvl11_ was double now int
+  variable metvl21_ was double now int
+  variable actin11_ was double now byte
+  variable actin21_ was double now byte
+  variable padur1_ was double now int
+  variable padur2_ was double now int
+  variable _minac11 was double now long
+  variable _minac21 was double now long
+  variable pamiss1_ was double now byte
+  variable pamin11_ was double now long
+  variable pamin21_ was double now long
+  variable pa1min_ was double now long
+  variable pavig11_ was double now int
+  variable pavig21_ was double now int
+  variable pa1vigm_ was double now int
+  variable _pacat1 was double now byte
+  variable _paindx1 was double now byte
+  variable _pa150r2 was double now byte
+  variable _pa300r2 was double now byte
+  variable _pa30021 was double now byte
+  variable _pastrng was double now byte
+  variable _parec1 was double now byte
+  variable _pastae1 was double now byte
+  variable _lmtact1 was double now byte
+  variable _lmtwrk1 was double now byte
+  variable _lmtscl1 was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _flshot6 was double now byte
+  variable _pneumo2 was double now byte
+  variable _aidtst3 was double now byte
+  (932,796,528 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2015.dta saved
+  variable _state was double now byte
+  variable fmonth was double now byte
+  variable dispcode was double now int
+  variable _psu was double now long
+  variable ctelenm1 was double now byte
+  variable pvtresd1 was double now byte
+  variable colghous was double now byte
+  variable stateres was double now byte
+  variable cellfon4 was double now byte
+  variable ladult was double now byte
+  variable numadult was double now byte
+  variable nummen was double now byte
+  variable numwomen was double now byte
+  variable ctelnum1 was double now byte
+  variable cellfon5 was double now byte
+  variable cadult was double now byte
+  variable pvtresd3 was double now byte
+  variable cclghous was double now byte
+  variable cstate1 was double now byte
+  variable landline was double now byte
+  variable hhadult was double now byte
+  variable genhlth was double now byte
+  variable physhlth was double now byte
+  variable menthlth was double now byte
+  variable poorhlth was double now byte
+  variable hlthpln1 was double now byte
+  variable persdoc2 was double now byte
+  variable medcost was double now byte
+  variable checkup1 was double now byte
+  variable exerany2 was double now byte
+  variable sleptim1 was double now byte
+  variable cvdinfr4 was double now byte
+  variable cvdcrhd4 was double now byte
+  variable cvdstrk3 was double now byte
+  variable asthma3 was double now byte
+  variable asthnow was double now byte
+  variable chcscncr was double now byte
+  variable chcocncr was double now byte
+  variable chccopd1 was double now byte
+  variable havarth3 was double now byte
+  variable addepev2 was double now byte
+  variable chckidny was double now byte
+  variable diabete3 was double now byte
+  variable diabage2 was double now byte
+  variable lastden3 was double now byte
+  variable rmvteth3 was double now byte
+  variable sex was double now byte
+  variable marital was double now byte
+  variable educa was double now byte
+  variable renthom1 was double now byte
+  variable numhhol2 was double now byte
+  variable numphon2 was double now byte
+  variable cpdemo1 was double now byte
+  variable veteran3 was double now byte
+  variable employ1 was double now byte
+  variable children was double now byte
+  variable income2 was double now byte
+  variable internet was double now byte
+  variable weight2 was double now int
+  variable height3 was double now int
+  variable pregnant was double now byte
+  variable deaf was double now byte
+  variable blind was double now byte
+  variable decide was double now byte
+  variable diffwalk was double now byte
+  variable diffdres was double now byte
+  variable diffalon was double now byte
+  variable smoke100 was double now byte
+  variable smokday2 was double now byte
+  variable stopsmk2 was double now byte
+  variable lastsmk2 was double now byte
+  variable usenow3 was double now byte
+  variable ecigaret was double now byte
+  variable ecignow was double now byte
+  variable alcday5 was double now int
+  variable avedrnk2 was double now byte
+  variable drnk3ge5 was double now byte
+  variable maxdrnks was double now byte
+  variable flushot6 was double now byte
+  variable flshtmy2 was double now long
+  variable pneuvac3 was double now byte
+  variable tetanus was double now byte
+  variable fall12mn was double now byte
+  variable fallinj2 was double now byte
+  variable seatbelt was double now byte
+  variable drnkdri2 was double now byte
+  variable hadmam was double now byte
+  variable howlong was double now byte
+  variable hadpap2 was double now byte
+  variable lastpap2 was double now byte
+  variable hpvtest was double now byte
+  variable hplsttst was double now byte
+  variable hadhyst2 was double now byte
+  variable pcpsaad2 was double now byte
+  variable pcpsadi1 was double now byte
+  variable pcpsare1 was double now byte
+  variable psatest1 was double now byte
+  variable psatime was double now byte
+  variable pcpsars1 was double now byte
+  variable bldstool was double now byte
+  variable lstblds3 was double now byte
+  variable hadsigm3 was double now byte
+  variable hadsgco1 was double now byte
+  variable lastsig3 was double now byte
+  variable hivtst6 was double now byte
+  variable hivtstd3 was double now long
+  variable hivrisk4 was double now byte
+  variable pdiabtst was double now byte
+  variable prediab1 was double now byte
+  variable insulin was double now byte
+  variable bldsugar was double now int
+  variable feetchk2 was double now int
+  variable doctdiab was double now byte
+  variable chkhemo3 was double now byte
+  variable feetchk was double now byte
+  variable eyeexam was double now byte
+  variable diabeye was double now byte
+  variable diabedu was double now byte
+  variable painact2 was double now byte
+  variable qlmentl2 was double now byte
+  variable qlstres2 was double now byte
+  variable qlhlth2 was double now byte
+  variable medicare was double now byte
+  variable hlthcvr1 was double now byte
+  variable delaymed was double now byte
+  variable nocov121 was double now byte
+  variable lstcovrg was double now byte
+  variable drvisits was double now byte
+  variable medscost was double now byte
+  variable carercvd was double now byte
+  variable medbill1 was double now byte
+  variable medadvic was double now byte
+  variable undrstnd was double now byte
+  variable written was double now byte
+  variable caregiv1 was double now byte
+  variable crgvrel1 was double now byte
+  variable crgvlng1 was double now byte
+  variable crgvhrs1 was double now byte
+  variable crgvprb2 was double now byte
+  variable crgvpers was double now byte
+  variable crgvhous was double now byte
+  variable crgvmst2 was double now byte
+  variable crgvexpt was double now byte
+  variable cimemlos was double now byte
+  variable cdhouse was double now byte
+  variable cdassist was double now byte
+  variable cdhelp was double now byte
+  variable cdsocial was double now byte
+  variable cddiscus was double now byte
+  variable ssbsugr2 was double now int
+  variable ssbfrut2 was double now int
+  variable calrinfo was double now byte
+  variable marijana was double now byte
+  variable usemrjna was double now long
+  variable asthmage was double now byte
+  variable asattack was double now byte
+  variable aservist was double now byte
+  variable asdrvist was double now byte
+  variable asrchkup was double now byte
+  variable asactlim was double now int
+  variable asymptom was double now byte
+  variable asnoslep was double now byte
+  variable asthmed3 was double now byte
+  variable asinhalr was double now byte
+  variable imfvplac was double now byte
+  variable hpvadvc2 was double now byte
+  variable hpvadsht was double now byte
+  variable shingle2 was double now byte
+  variable numburn2 was double now byte
+  variable cncrdiff was double now byte
+  variable cncrage was double now byte
+  variable cncrtyp1 was double now byte
+  variable csrvtrt1 was double now byte
+  variable csrvdoc1 was double now byte
+  variable csrvsum was double now byte
+  variable csrvrtrn was double now byte
+  variable csrvinst was double now byte
+  variable csrvinsr was double now byte
+  variable csrvdein was double now byte
+  variable csrvclin was double now byte
+  variable csrvpain was double now byte
+  variable csrvctl1 was double now byte
+  variable profexam was double now byte
+  variable lengexam was double now byte
+  variable pcpsade1 was double now byte
+  variable sxorient was double now byte
+  variable trnsgndr was double now byte
+  variable rcsgendr was double now byte
+  variable rcsrltn2 was double now byte
+  variable casthdx2 was double now byte
+  variable casthno2 was double now byte
+  variable emtsuprt was double now byte
+  variable lsatisfy was double now byte
+  variable qlactlm2 was double now byte
+  variable useequip was double now byte
+  variable qstver was double now byte
+  variable qstlang was double now byte
+  variable mscode was double now byte
+  variable _ststr was double now long
+  variable _chispnc was double now byte
+  variable _crace1 was double now byte
+  variable _cprace was double now byte
+  variable _dualuse was double now byte
+  variable _rfhlth was double now byte
+  variable _phys14d was double now byte
+  variable _ment14d was double now byte
+  variable _hcvu651 was double now byte
+  variable _totinda was double now byte
+  variable _michd was double now byte
+  variable _ltasth1 was double now byte
+  variable _casthm1 was double now byte
+  variable _asthms1 was double now byte
+  variable _drdxar1 was double now byte
+  variable _exteth2 was double now byte
+  variable _alteth2 was double now byte
+  variable _denvst2 was double now byte
+  variable _prace1 was double now byte
+  variable _mrace1 was double now byte
+  variable _hispanc was double now byte
+  variable _race was double now byte
+  variable _raceg21 was double now byte
+  variable _racegr3 was double now byte
+  variable _race_g1 was double now byte
+  variable _ageg5yr was double now byte
+  variable _age65yr was double now byte
+  variable _age80 was double now byte
+  variable _age_g was double now byte
+  variable htin4 was double now byte
+  variable htm4 was double now int
+  variable wtkg3 was double now int
+  variable _bmi5 was double now int
+  variable _bmi5cat was double now byte
+  variable _rfbmi5 was double now byte
+  variable _chldcnt was double now byte
+  variable _educag was double now byte
+  variable _incomg was double now byte
+  variable _smoker3 was double now byte
+  variable _rfsmok3 was double now byte
+  variable _ecigsts was double now byte
+  variable _curecig was double now byte
+  variable drnkany5 was double now byte
+  variable drocdy3_ was double now int
+  variable _rfbing5 was double now byte
+  variable _drnkwek was double now long
+  variable _rfdrhv5 was double now byte
+  variable _flshot6 was double now byte
+  variable _pneumo2 was double now byte
+  variable _rfseat2 was double now byte
+  variable _rfseat3 was double now byte
+  variable _drnkdrv was double now byte
+  variable _rfmam2y was double now byte
+  variable _mam5021 was double now byte
+  variable _rfpap33 was double now byte
+  variable _rfpsa21 was double now byte
+  variable _rfblds3 was double now byte
+  variable _col10yr was double now byte
+  variable _hfob3yr was double now byte
+  variable _fs5yr was double now byte
+  variable _fobtfs was double now byte
+  variable _crcrec was double now byte
+  variable _aidtst3 was double now byte
+  variable pcdmdecn was str4 now str1
+  (874,859,097 bytes saved)
+  (all newnames==oldnames)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2016.dta saved
+
+. 
+. *** Appending ***
+. *************************************************************************************************************************
+. 
+. use "$raw/2011", clear
+
+. foreach y of numlist 2012/2016 {
+  2.     append using "$raw/`y'"
+  3. }
+
+. 
+. save "$raw/2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/raw/2011_2016.dta saved
+
+. 
+. 
+. ******** Recoding ********
+. *************************************************************************************************************************
+. 
+. use "$raw/2011_2016", clear
+
+. 
+. *** Checks for missing ***
+. foreach v in age sex race_g marital _educag income2 _chldcnt employ ///
+>              year imonth _state mscode checkup1 hlthpln1 {
+  2.     tab `v', missing
+  3. }
+
+   REPORTED |
+     AGE IN |
+      YEARS |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          7 |        784        0.03        0.03
+          9 |      8,760        0.31        0.33
+         18 |     20,649        0.72        1.05
+         19 |     19,400        0.68        1.73
+         20 |     19,960        0.70        2.43
+         21 |     21,768        0.76        3.19
+         22 |     21,727        0.76        3.94
+         23 |     23,059        0.80        4.75
+         24 |     23,614        0.82        5.57
+         25 |     25,422        0.89        6.46
+         26 |     24,390        0.85        7.31
+         27 |     25,452        0.89        8.20
+         28 |     27,112        0.95        9.14
+         29 |     26,719        0.93       10.08
+         30 |     31,309        1.09       11.17
+         31 |     27,959        0.98       12.14
+         32 |     31,780        1.11       13.25
+         33 |     31,063        1.08       14.34
+         34 |     31,116        1.09       15.42
+         35 |     34,202        1.19       16.62
+         36 |     32,218        1.12       17.74
+         37 |     31,869        1.11       18.85
+         38 |     33,273        1.16       20.01
+         39 |     31,750        1.11       21.12
+         40 |     38,486        1.34       22.46
+         41 |     31,891        1.11       23.57
+         42 |     38,360        1.34       24.91
+         43 |     37,299        1.30       26.21
+         44 |     35,911        1.25       27.47
+         45 |     41,003        1.43       28.90
+         46 |     39,439        1.38       30.27
+         47 |     43,171        1.51       31.78
+         48 |     44,511        1.55       33.33
+         49 |     45,133        1.57       34.91
+         50 |     56,460        1.97       36.88
+         51 |     47,325        1.65       38.53
+         52 |     56,389        1.97       40.50
+         53 |     55,764        1.95       42.44
+         54 |     56,109        1.96       44.40
+         55 |     61,851        2.16       46.56
+         56 |     58,687        2.05       48.60
+         57 |     61,230        2.14       50.74
+         58 |     62,535        2.18       52.92
+         59 |     61,807        2.16       55.08
+         60 |     69,925        2.44       57.52
+         61 |     60,089        2.10       59.61
+         62 |     69,001        2.41       62.02
+         63 |     64,575        2.25       64.27
+         64 |     65,713        2.29       66.57
+         65 |     69,111        2.41       68.98
+         66 |     60,695        2.12       71.09
+         67 |     61,010        2.13       73.22
+         68 |     58,225        2.03       75.25
+         69 |     53,730        1.87       77.13
+         70 |     56,268        1.96       79.09
+         71 |     46,362        1.62       80.71
+         72 |     49,569        1.73       82.44
+         73 |     45,084        1.57       84.01
+         74 |     41,433        1.45       85.46
+         75 |     42,639        1.49       86.94
+         76 |     36,778        1.28       88.23
+         77 |     35,507        1.24       89.47
+         78 |     33,903        1.18       90.65
+         79 |     30,570        1.07       91.72
+         80 |    167,643        5.85       97.56
+         81 |      9,623        0.34       97.90
+         82 |      9,522        0.33       98.23
+         83 |      8,512        0.30       98.53
+         84 |      7,493        0.26       98.79
+         85 |      6,975        0.24       99.03
+         86 |      5,655        0.20       99.23
+         87 |      4,945        0.17       99.40
+         88 |      4,148        0.14       99.55
+         89 |      3,214        0.11       99.66
+         90 |      2,887        0.10       99.76
+         91 |      1,920        0.07       99.83
+         92 |      1,459        0.05       99.88
+         93 |      1,058        0.04       99.92
+         94 |        744        0.03       99.94
+         95 |        445        0.02       99.96
+         96 |        297        0.01       99.97
+         97 |        195        0.01       99.98
+         98 |        107        0.00       99.98
+         99 |        604        0.02      100.00
+          . |          1        0.00      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+RESPONDENTS |
+        SEX |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  1,182,338       41.25       41.25
+          2 |  1,683,946       58.75      100.00
+          9 |         66        0.00      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+   COMPUTED |
+RACE GROUPS |
+   USED FOR |
+ INTERNET P |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  2,191,580       76.46       76.46
+          2 |    228,819        7.98       84.44
+          3 |    222,499        7.76       92.20
+          4 |    124,793        4.35       96.56
+          5 |     53,669        1.87       98.43
+          . |     44,990        1.57      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+    MARITAL |
+     STATUS |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  1,503,399       52.45       52.45
+          2 |    396,995       13.85       66.30
+          3 |    378,767       13.21       79.51
+          4 |     60,401        2.11       81.62
+          5 |    429,448       14.98       96.60
+          6 |     77,907        2.72       99.32
+          9 |     17,409        0.61       99.93
+          . |      2,024        0.07      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+   COMPUTED |
+   LEVEL OF |
+  EDUCATION |
+  COMPLETED |
+         CA |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    240,076        8.38        8.38
+          2 |    823,019       28.71       37.09
+          3 |    778,237       27.15       64.24
+          4 |  1,011,582       35.29       99.53
+          9 |     13,436        0.47      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+     INCOME |
+      LEVEL |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    136,887        4.78        4.78
+          2 |    146,147        5.10        9.87
+          3 |    192,916        6.73       16.60
+          4 |    233,682        8.15       24.76
+          5 |    275,586        9.61       34.37
+          6 |    353,676       12.34       46.71
+          7 |    382,010       13.33       60.04
+          8 |    701,533       24.47       84.51
+         77 |    206,390        7.20       91.71
+         99 |    223,580        7.80       99.51
+          . |     13,943        0.49      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+   COMPUTED |
+  NUMBER OF |
+CHILDREN IN |
+  HOUSEHOLD |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  2,096,466       73.14       73.14
+          2 |    306,882       10.71       83.85
+          3 |    270,084        9.42       93.27
+          4 |    114,853        4.01       97.28
+          5 |     40,294        1.41       98.68
+          6 |     19,966        0.70       99.38
+          9 |     17,805        0.62      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+ EMPLOYMENT |
+     STATUS |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  1,170,003       40.82       40.82
+          2 |    236,287        8.24       49.06
+          3 |     75,800        2.64       51.71
+          4 |     66,851        2.33       54.04
+          5 |    181,835        6.34       60.38
+          6 |     71,389        2.49       62.87
+          7 |    830,556       28.98       91.85
+          8 |    212,086        7.40       99.25
+          9 |     17,391        0.61       99.86
+          . |      4,152        0.14      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+       year |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       2011 |    506,467       17.67       17.67
+       2012 |    475,687       16.60       34.26
+       2013 |    491,773       17.16       51.42
+       2014 |    464,664       16.21       67.63
+       2015 |    441,456       15.40       83.03
+       2016 |    486,303       16.97      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+  INTERVIEW |
+      MONTH |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          2 |         54        0.00        0.00
+          9 |          1        0.00        0.00
+         01 |    203,072        7.08        7.09
+         02 |    240,677        8.40       15.48
+         03 |    263,539        9.19       24.68
+         04 |    237,338        8.28       32.96
+         05 |    235,767        8.23       41.18
+         06 |    237,404        8.28       49.47
+         07 |    248,448        8.67       58.13
+         08 |    253,946        8.86       66.99
+         09 |    229,027        7.99       74.98
+         10 |    240,030        8.37       83.36
+         11 |    248,660        8.68       92.03
+         12 |    228,387        7.97      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+ STATE FIPS |
+       CODE |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |     46,851        1.63        1.63
+          2 |     23,425        0.82        2.45
+          4 |     51,812        1.81        4.26
+          5 |     31,006        1.08        5.34
+          6 |     76,922        2.68        8.02
+          8 |     81,410        2.84       10.86
+          9 |     54,210        1.89       12.76
+         10 |     27,584        0.96       13.72
+         11 |     25,238        0.88       14.60
+         12 |    110,724        3.86       18.46
+         13 |     40,608        1.42       19.88
+         15 |     45,543        1.59       21.47
+         16 |     34,150        1.19       22.66
+         17 |     31,767        1.11       23.77
+         18 |     56,141        1.96       25.73
+         19 |     44,291        1.55       27.27
+         20 |    104,962        3.66       30.93
+         21 |     63,398        2.21       33.14
+         22 |     41,998        1.47       34.61
+         23 |     59,480        2.08       36.68
+         24 |     79,580        2.78       39.46
+         25 |     92,485        3.23       42.69
+         26 |     63,732        2.22       44.91
+         27 |     91,998        3.21       48.12
+         28 |     39,523        1.38       49.50
+         29 |     41,791        1.46       50.96
+         30 |     48,161        1.68       52.64
+         31 |    116,892        4.08       56.72
+         32 |     26,473        0.92       57.64
+         33 |     39,989        1.40       59.03
+         34 |     76,692        2.68       61.71
+         35 |     49,204        1.72       63.43
+         36 |     76,186        2.66       66.08
+         37 |     52,831        1.84       67.93
+         38 |     36,491        1.27       69.20
+         39 |     70,196        2.45       71.65
+         40 |     47,098        1.64       73.29
+         41 |     33,523        1.17       74.46
+         42 |     66,446        2.32       76.78
+         44 |     36,657        1.28       78.06
+         45 |     70,330        2.45       80.51
+         46 |     43,421        1.51       82.03
+         47 |     36,073        1.26       83.29
+         48 |     76,861        2.68       85.97
+         49 |     75,269        2.63       88.59
+         50 |     39,048        1.36       89.96
+         51 |     49,587        1.73       91.69
+         53 |     81,720        2.85       94.54
+         54 |     35,897        1.25       95.79
+         55 |     35,694        1.25       97.04
+         56 |     36,002        1.26       98.29
+         66 |     11,580        0.40       98.70
+         72 |     36,134        1.26       99.96
+         78 |      1,266        0.04      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+METROPOLITA |
+   N STATUS |
+       CODE |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |    653,656       22.80       22.80
+          2 |    368,886       12.87       35.67
+          3 |    265,038        9.25       44.92
+          4 |      6,077        0.21       45.13
+          5 |    652,412       22.76       67.89
+          . |    920,281       32.11      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+  LENGTH OF |
+ TIME SINCE |
+       LAST |
+    ROUTINE |
+     CHECKU |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  2,091,133       72.95       72.95
+          2 |    331,105       11.55       84.51
+          3 |    192,232        6.71       91.21
+          4 |    188,118        6.56       97.78
+          7 |     34,005        1.19       98.96
+          8 |     26,106        0.91       99.87
+          9 |      3,644        0.13      100.00
+          . |          7        0.00      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+   HAVE ANY |
+HEALTH CARE |
+   COVERAGE |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |  2,582,531       90.10       90.10
+          2 |    273,134        9.53       99.63
+          7 |      6,002        0.21       99.84
+          9 |      4,681        0.16      100.00
+          . |          2        0.00      100.00
+------------+-----------------------------------
+      Total |  2,866,350      100.00
+
+. 
+. 
+. *** Demographic variables ***
+. *************************************************************************************************************************
+. 
+. * Restrict sample to adults age 19-64
+. recode age ///
+>     (19/24 = 1 "19-24") ///
+>     (25/29 = 2 "25-29") ///
+>     (30/34 = 3 "30-34") ///
+>     (35/39 = 4 "35-39") ///
+>     (40/44 = 5 "40-44") ///
+>     (45/49 = 6 "45-49") ///
+>     (50/54 = 7 "50-54") ///
+>     (55/59 = 8 "55-59") ///
+>     (60/64 = 9 "60-64") ///
+>     (else = .), gen(age_cat)
+(2,866,349 differences between age and age_cat)
+
+. drop if age_cat == .
+(988,524 observations deleted)
+
+. 
+. recode sex ///
+>     (1 = 0 "Male") ///
+>     (2 = 1 "Female") ///
+>     (else = .), gen(female)
+(1,877,826 differences between sex and female)
+
+. 
+. recode race_g ///
+>     (1 = 1 "Non-Hispanic White") ///
+>     (2 = 2 "Non-Hispanic Black") ///
+>     (3 = 3 "Hispanic") ///
+>     (4/5 = 0 "Other") ///
+>     (else = .), gen(race)
+(137,356 differences between race_g and race)
+
+. 
+. recode marital ///
+>     (1 = 1 "Married") ///
+>     (2/6 = 0 "Others") ///
+>     (else = .), gen(marital_status)
+(830,738 differences between marital and marital_status)
+
+. 
+. recode _educag ///
+>     (1 = 1 "No High School") ///
+>     (2 = 2 "High School") ///
+>     (3 = 3 "Some College") ///
+>     (4 = 4 "College Grad") ///
+>     (else = .), gen(educa_lvl)
+(8,167 differences between _educag and educa_lvl)
+
+. 
+. 
+. *** Socioeconomic variables ***
+. *************************************************************************************************************************
+. 
+. recode income2 ///
+>     (1 = 1 "Less than $10k") ///
+>     (2 = 2 "$10k-$15k") ///
+>     (3 = 3 "$15k-$20k") ///
+>     (4 = 4 "$20k-$25k") ///
+>     (5 = 5 "$25k-$35k") ///
+>     (6 = 6 "$35k-$50k") ///
+>     (7 = 7 "$50k-$75k") ///
+>     (8 = 8 "More than $75k") ///
+>     (else = .), gen(income_cat)
+(222,114 differences between income2 and income_cat)
+
+. 
+. recode employ ///
+>     (1/2 = 1 "Employed") ///
+>     (3/4 = 0 "Unemployed") ///
+>     (5/8 = 2 "Others") ///
+>     (else = .), gen(employ_status)
+(808,457 differences between employ and employ_status)
+
+. 
+. recode hlthpln1 ///
+>     (1 = 1 "Insured") ///
+>     (2 = 0 "Uninsured") ///
+>     (else = .), gen(insured)
+(261,518 differences between hlthpln1 and insured)
+
+. 
+. 
+. *** Children and household size ***
+. *************************************************************************************************************************
+. 
+. recode _chldcnt ///
+>     (1 = 0 "No children") ///
+>     (2 = 1 "One child") ///
+>     (3 = 2 "Two children") ///
+>     (4 = 3 "Three children") ///
+>     (5 = 4 "Four children") ///
+>     (6 = 5 "Five+ children") ///
+>     (else = .), gen(num_children)
+(1,877,826 differences between _chldcnt and num_children)
+
+. 
+. gen hhsize = .
+(1,877,826 missing values generated)
+
+. replace hhsize = num_children + 2 if marital_status == 1
+(1,039,761 real changes made)
+
+. replace hhsize = num_children + 1 if marital_status == 0
+(815,172 real changes made)
+
+. label var hhsize "Estimated household size"
+
+. 
+. *** States ***
+. *************************************************************************************************************************
+. 
+. label define state_lbl ///
+>     1 "Alabama" 2 "Alaska" 4 "Arizona" 5 "Arkansas" 6 "California" ///
+>     8 "Colorado" 9 "Connecticut" 10 "Delaware" 11 "District of Columbia" ///
+>     12 "Florida" 13 "Georgia" 15 "Hawaii" 16 "Idaho" 17 "Illinois" ///
+>     18 "Indiana" 19 "Iowa" 20 "Kansas" 21 "Kentucky" 22 "Louisiana" ///
+>     23 "Maine" 24 "Maryland" 25 "Massachusetts" 26 "Michigan" ///
+>     27 "Minnesota" 28 "Mississippi" 29 "Missouri" 30 "Montana" ///
+>     31 "Nebraska" 32 "Nevada" 33 "New Hampshire" 34 "New Jersey" ///
+>     35 "New Mexico" 36 "New York" 37 "North Carolina" 38 "North Dakota" ///
+>     39 "Ohio" 40 "Oklahoma" 41 "Oregon" 42 "Pennsylvania" 44 "Rhode Island" ///
+>     45 "South Carolina" 46 "South Dakota" 47 "Tennessee" 48 "Texas" ///
+>     49 "Utah" 50 "Vermont" 51 "Virginia" 53 "Washington" ///
+>     54 "West Virginia" 55 "Wisconsin" 56 "Wyoming" ///
+>     66 "Guam" 72 "Puerto Rico"
+
+. label values _state state_lbl
+
+. 
+. drop if inlist(_state, 66, 72, 78)
+(34,604 observations deleted)
+
+. 
+. recode mscode ///
+>     (1/2 = 1 "Urban") ///
+>     (3/4 = 2 "Suburban") ///
+>     (5   = 3 "Rural") ///
+>     (else = .), gen(msa_status)
+(743,308 differences between mscode and msa_status)
+
+. 
+. 
+. *** Outcome variable ***
+. *************************************************************************************************************************
+. 
+. replace checkup1 = . if inlist(checkup1, 7, 9)
+(22,503 real changes made, 22,503 to missing)
+
+. 
+. gen checkup_1year = (checkup1 == 1) if !missing(checkup1)
+(22,506 missing values generated)
+
+. label var checkup_1year "Had checkup in past year"
+
+. label define checkup1yr_lbl 0 "No" 1 "Yes"
+
+. label values checkup_1year checkup1yr_lbl
+
+. 
+. 
+. *** Medicaid expansion year ***
+. *************************************************************************************************************************
+. 
+. gen expand_year = .
+(1,843,222 missing values generated)
+
+. replace expand_year = 2014 if inlist(_state, 4,5,6,8,9,10,11,15,17,19,21,24,25,27,32,34,35,36,38,39,41,44,50,53,54)
+(899,949 real changes made)
+
+. replace expand_year = 2014 if inlist(_state, 26,33)
+(67,293 real changes made)
+
+. replace expand_year = 2015 if inlist(_state, 2,18,42)
+(97,721 real changes made)
+
+. replace expand_year = 2016 if inlist(_state, 22,30)
+(58,014 real changes made)
+
+. 
+. gen mexpansion = !missing(expand_year)
+
+. label define medexp_lbl 0 "Non-expansion" 1 "Expansion"
+
+. label values mexpansion medexp_lbl
+
+. 
+. *** Checks for sample size and missing ***
+. *************************************************************************************************************************
+. 
+. tab checkup_1year year, missing
+
+       Had |
+checkup in |                               year
+ past year |      2011       2012       2013       2014       2015       2016 |     Total
+-----------+------------------------------------------------------------------+----------
+        No |   110,579    102,252    105,358     93,720     87,472     91,978 |   591,359 
+       Yes |   217,608    203,343    212,488    198,295    188,568    209,055 | 1,229,357 
+         . |     3,720      3,509      3,815      3,792      3,780      3,890 |    22,506 
+-----------+------------------------------------------------------------------+----------
+     Total |   331,907    309,104    321,661    295,807    279,820    304,923 | 1,843,222 
+
+. tab mexpansion year, missing
+
+              |                               year
+   mexpansion |      2011       2012       2013       2014       2015       2016 |     Total
+--------------+------------------------------------------------------------------+----------
+Non-expansion |   134,351    112,270    131,257    115,853    112,571    113,943 |   720,245 
+    Expansion |   197,556    196,834    190,404    179,954    167,249    190,980 | 1,122,977 
+--------------+------------------------------------------------------------------+----------
+        Total |   331,907    309,104    321,661    295,807    279,820    304,923 | 1,843,222 
+
+. tab marital_status hhsize, missing
+
+ RECODE of |
+   marital |
+  (MARITAL |                                Estimated household size
+   STATUS) |         1          2          3          4          5          6          7          . |     Total
+-----------+----------------------------------------------------------------------------------------+----------
+    Others |   572,155    108,677     70,014     29,785     10,600      5,543          0      3,655 |   800,429 
+   Married |         0    554,595    166,765    183,313     78,594     27,504     13,030      5,897 | 1,029,698 
+         . |         0          0          0          0          0          0          0     13,095 |    13,095 
+-----------+----------------------------------------------------------------------------------------+----------
+     Total |   572,155    663,272    236,779    213,098     89,194     33,047     13,030     22,647 | 1,843,222 
+
+. 
+. save "$clean/r2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/clean/r2011_2016.dta saved
+
+. save "$temp/r2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/r2011_2016.dta saved
+
+. 
+. 
+. *** Merging ***
+. *************************************************************************************************************************
+. 
+. use "$temp/r2011_2016", clear
+
+. 
+. merge m:1 _state year using "$temp/medicaid_exp_2011_2016.dta"
+(variable _state was byte, now float to accommodate using data's values)
+(label state_lbl already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                         1,843,222  (_merge==3)
+    -----------------------------------------
+
+. keep if _merge == 3
+(0 observations deleted)
+
+. drop _merge
+
+. save "$temp/medicaid2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/medicaid2011_2016.dta saved
+
+. 
+. use "$temp/medicaid2011_2016", clear
+
+. 
+. merge m:1 hhsize using "$temp/poverty2013.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        22,657
+        from master                    22,647  (_merge==1)
+        from using                         10  (_merge==2)
+
+    Matched                         1,820,575  (_merge==3)
+    -----------------------------------------
+
+. keep if _merge == 3
+(22,657 observations deleted)
+
+. drop _merge
+
+. 
+. save "$temp/m2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/temp/m2011_2016.dta saved
+
+. save "$master/m2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/m2011_2016.dta saved
+
+. 
+. 
+. *** Analysis begin ***
+. *************************************************************************************************************************
+. 
+. use "$master/m2011_2016", clear
+
+. 
+. rename medicaid_exp post
+
+. rename mexpansion   medicaid
+
+. 
+. 
+. *** Income and FPL ***
+. *************************************************************************************************************************
+. 
+. gen income_mid = .
+(1,820,575 missing values generated)
+
+. replace income_mid =  7500 if income_cat == 1
+(91,906 real changes made)
+
+. replace income_mid = 12500 if income_cat == 2
+(81,217 real changes made)
+
+. replace income_mid = 17500 if income_cat == 3
+(108,277 real changes made)
+
+. replace income_mid = 22500 if income_cat == 4
+(129,056 real changes made)
+
+. replace income_mid = 30000 if income_cat == 5
+(153,690 real changes made)
+
+. replace income_mid = 42500 if income_cat == 6
+(219,328 real changes made)
+
+. replace income_mid = 62500 if income_cat == 7
+(268,853 real changes made)
+
+. replace income_mid = 87500 if income_cat == 8
+(555,627 real changes made)
+
+. 
+. gen fpl_threshold = fpl
+
+. replace fpl_threshold = fplhi if _state == 15
+(30,761 real changes made)
+
+. replace fpl_threshold = fplak if _state == 2
+(17,943 real changes made)
+
+. 
+. gen fpl_pct = 100 * income_mid / fpl_threshold
+(212,621 missing values generated)
+
+. 
+. gen low_income = fpl_pct <= 138 if !missing(fpl_pct)
+(212,621 missing values generated)
+
+. label define lowinc_lbl 0 ">138% FPL" 1 "<=138% FPL"
+
+. label values low_income lowinc_lbl
+
+. label var low_income "Income at or below 138% FPL"
+
+. 
+. 
+. 
+. *** Table 1 dummy variables ***
+. *************************************************************************************************************************
+. 
+. * Age: 19-24 omitted
+. gen age25_29 = age_cat == 2 if !missing(age_cat)
+
+. gen age30_34 = age_cat == 3 if !missing(age_cat)
+
+. gen age35_39 = age_cat == 4 if !missing(age_cat)
+
+. gen age40_44 = age_cat == 5 if !missing(age_cat)
+
+. gen age45_49 = age_cat == 6 if !missing(age_cat)
+
+. gen age50_54 = age_cat == 7 if !missing(age_cat)
+
+. gen age55_59 = age_cat == 8 if !missing(age_cat)
+
+. gen age60_64 = age_cat == 9 if !missing(age_cat)
+
+. 
+. * Race
+. gen black    = race == 2 if !missing(race)
+(23,526 missing values generated)
+
+. gen hispanic = race == 3 if !missing(race)
+(23,526 missing values generated)
+
+. gen white    = race == 1 if !missing(race)
+(23,526 missing values generated)
+
+. 
+. * Marital status
+. gen married = marital_status == 1 if !missing(marital_status)
+
+. 
+. * Education: <HS omitted
+. gen hsdegree    = educa_lvl == 2 if !missing(educa_lvl)
+(3,791 missing values generated)
+
+. gen somecollege = educa_lvl == 3 if !missing(educa_lvl)
+(3,791 missing values generated)
+
+. gen collegegrad = educa_lvl == 4 if !missing(educa_lvl)
+(3,791 missing values generated)
+
+. 
+. * Children: 0 omitted
+. gen onechild      = num_children == 1 if !missing(num_children)
+
+. gen twochildren   = num_children == 2 if !missing(num_children)
+
+. gen threechildren = num_children == 3 if !missing(num_children)
+
+. gen fourchildren  = num_children == 4 if !missing(num_children)
+
+. 
+. * Employment
+. gen unemployed = employ_status == 0 if !missing(employ_status)
+(9,338 missing values generated)
+
+. gen student    = employ == 6 if !missing(employ)
+(1,033 missing values generated)
+
+. 
+. * Income: <10k omitted
+. gen inc10_15 = income_cat == 2 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc15_20 = income_cat == 3 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc20_25 = income_cat == 4 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc25_35 = income_cat == 5 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc35_50 = income_cat == 6 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc50_75 = income_cat == 7 if !missing(income_cat)
+(212,621 missing values generated)
+
+. gen inc75p   = income_cat == 8 if !missing(income_cat)
+(212,621 missing values generated)
+
+. 
+. 
+. *** Group variables ***
+. *************************************************************************************************************************
+. gen income_exp_group = .
+(1,820,575 missing values generated)
+
+. replace income_exp_group = 1 if low_income == 1 & medicaid == 1
+(174,570 real changes made)
+
+. replace income_exp_group = 2 if low_income == 1 & medicaid == 0
+(126,495 real changes made)
+
+. replace income_exp_group = 3 if low_income == 0 & medicaid == 1
+(802,989 real changes made)
+
+. replace income_exp_group = 4 if low_income == 0 & medicaid == 0
+(503,900 real changes made)
+
+. 
+. label define income_exp_group_lbl ///
+>     1 "Low income, Expansion state" ///
+>     2 "Low income, Non-expansion state" ///
+>     3 "High income, Expansion state" ///
+>     4 "High income, Non-expansion state"
+
+. label values income_exp_group income_exp_group_lbl
+
+. 
+. gen ins_exp_group = .
+(1,820,575 missing values generated)
+
+. replace ins_exp_group = 1 if insured == 1 & medicaid == 1
+(972,806 real changes made)
+
+. replace ins_exp_group = 2 if insured == 0 & medicaid == 1
+(131,744 real changes made)
+
+. replace ins_exp_group = 3 if insured == 1 & medicaid == 0
+(594,147 real changes made)
+
+. replace ins_exp_group = 4 if insured == 0 & medicaid == 0
+(115,783 real changes made)
+
+. 
+. label define ins_exp_group_lbl ///
+>     1 "Insured, Expansion" ///
+>     2 "Uninsured, Expansion" ///
+>     3 "Insured, Non-expansion" ///
+>     4 "Uninsured, Non-expansion"
+
+. label values ins_exp_group ins_exp_group_lbl
+
+. 
+. 
+. *** Labeling ***
+. *************************************************************************************************************************
+. 
+. label var checkup_1year "Check-up in past year"
+
+. 
+. label var age25_29 "Age 25-29"
+
+. label var age30_34 "Age 30-34"
+
+. label var age35_39 "Age 35-39"
+
+. label var age40_44 "Age 40-44"
+
+. label var age45_49 "Age 45-49"
+
+. label var age50_54 "Age 50-54"
+
+. label var age55_59 "Age 55-59"
+
+. label var age60_64 "Age 60-64"
+
+. 
+. label var female "Female"
+
+. label var black "Black"
+
+. label var hispanic "Hispanic"
+
+. label var white "White"
+
+. label var married "Married"
+
+. 
+. label var hsdegree "High school degree"
+
+. label var somecollege "Some college"
+
+. label var collegegrad "College graduate"
+
+. 
+. label var onechild "One child"
+
+. label var twochildren "Two children"
+
+. label var threechildren "Three children"
+
+. label var fourchildren "Four children"
+
+. 
+. label var unemployed "Unemployed"
+
+. label var student "Student"
+
+. 
+. label var inc10_15 "Income $10k-$15k"
+
+. label var inc15_20 "Income $15k-$20k"
+
+. label var inc20_25 "Income $20k-$25k"
+
+. label var inc25_35 "Income $25k-$35k"
+
+. label var inc35_50 "Income $35k-$50k"
+
+. label var inc50_75 "Income $50k-$75k"
+
+. label var inc75p   "Income >$75k"
+
+. 
+. save "$master/d2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/d2011_2016.dta saved
+
+. 
+. *** Figures ***
+. *************************************************************************************************************************
+. 
+. use "$master/d2011_2016", clear
+
+. 
+. svyset _psu [pweight=_llcpwt], strata(_ststr)
+
+Sampling weights: _llcpwt
+             VCE: linearized
+     Single unit: missing
+        Strata 1: _ststr
+ Sampling unit 1: _psu
+           FPC 1: <zero>
+
+. 
+. * Annual checkup rate over time
+. preserve
+
+. collapse (mean) checkup_1year, by(year)
+
+. 
+. twoway ///
+>     (connected checkup_1year year, ///
+>         lcolor(black) lwidth(medthick) ///
+>         msymbol(oh) mcolor(black) msize(small)), ///
+>     xline(2014, lpattern(shortdash) lcolor(gs10)) ///
+>     xlabel(2011(1)2016, nogrid) ///
+>     ylabel(, nogrid format(%9.2f)) ///
+>     title("Annual Checkup Rate Over Time") ///
+>     xtitle("Year") ///
+>     ytitle("Checkup in Past Year") ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/checkup_trend.png", replace width(2000)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend.png saved as PNG format
+
+. restore
+
+. 
+. * Checkup among low-income adults by expansion status
+. preserve
+
+. collapse (mean) checkup_1year [aw=_llcpwt], by(year income_exp_group)
+
+. 
+. twoway ///
+>     (connected checkup_1year year if income_exp_group == 1, ///
+>         lcolor(black) lwidth(medthick) lpattern(solid) ///
+>         msymbol(circle) mcolor(black) msize(small)) ///
+>     (connected checkup_1year year if income_exp_group == 2, ///
+>         lcolor(black) lwidth(medthin) lpattern(dash) ///
+>         msymbol(square) mcolor(black) msize(small)), ///
+>     xline(2014, lpattern(solid) lcolor(gs10)) ///
+>     xlabel(2011(1)2016, nogrid) ///
+>     ylabel(, nogrid format(%9.2f)) ///
+>     title("Check-up Among Low-Income Adults") ///
+>     xtitle("Year") ///
+>     ytitle("") ///
+>     legend(order(1 "Expansion States" 2 "Non-Expansion States") pos(6) row(1)) ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/checkup_trend_lowinc.png", replace width(2000)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_lowinc.png saved as PNG format
+
+. restore
+
+. 
+. * Checkup by expansion status (full income sample)
+. preserve
+
+. collapse (mean) checkup_1year [aw=_llcpwt], by(year medicaid)
+
+. 
+. twoway ///
+>     (connected checkup_1year year if medicaid == 1, ///
+>         lcolor(black) lwidth(medthick) lpattern(solid) ///
+>         msymbol(circle) mcolor(black) msize(small)) ///
+>     (connected checkup_1year year if medicaid == 0, ///
+>         lcolor(black) lwidth(medthin) lpattern(dash) ///
+>         msymbol(square) mcolor(black) msize(small)), ///
+>     xlabel(2011(1)2016, nogrid) ///
+>     ylabel(, nogrid format(%9.2f)) ///
+>     title("Check-up by Expansion Status") ///
+>     xtitle("Year") ///
+>     ytitle("") ///
+>     legend(order(1 "Expansion States" 2 "Non-Expansion States") pos(6) row(1)) ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/checkup_trend_by_expansion.png", replace width(2000)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_expansion.png saved as PNG format
+
+. restore
+
+. 
+. * Checkup by income and expansion status
+. preserve
+
+. keep if !missing(income_exp_group)
+(212,621 observations deleted)
+
+. collapse (mean) checkup_1year [aw=_llcpwt], by(year income_exp_group)
+
+. 
+. twoway ///
+>     (connected checkup_1year year if income_exp_group == 1, ///
+>         lcolor(black) lwidth(medthick) msymbol(circle) mcolor(black)) ///
+>     (connected checkup_1year year if income_exp_group == 2, ///
+>         lcolor(gray) lwidth(medthin) msymbol(square) mcolor(gray)) ///
+>     (connected checkup_1year year if income_exp_group == 3, ///
+>         lcolor(gray) lwidth(medthin) lpattern(dash) ///
+>         msymbol(triangle) mcolor(gray)) ///
+>     (connected checkup_1year year if income_exp_group == 4, ///
+>         lcolor(gray) lwidth(medthin) lpattern(dash) ///
+>         msymbol(diamond) mcolor(gray)), ///
+>     xlabel(2011(1)2016, nogrid) ///
+>     ylabel(, nogrid format(%9.2f)) ///
+>     title("Annual Checkup Rate by Income and Expansion Status") ///
+>     xtitle("Year") ///
+>     ytitle("Checkup in Past Year") ///
+>     legend(order(1 "Low income, Expansion" ///
+>                  2 "Low income, Non-expansion" ///
+>                  3 "High income, Expansion" ///
+>                  4 "High income, Non-expansion") ///
+>            pos(6) row(2)) ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/checkup_trend_by_income.png", replace width(2000)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_income.png saved as PNG format
+
+. restore
+
+. 
+. * Checkup by insurance and expansion status
+. preserve
+
+. collapse (mean) checkup_1year [aw=_llcpwt], by(year ins_exp_group)
+
+. 
+. twoway ///
+>     (connected checkup_1year year if ins_exp_group == 1, ///
+>         lcolor(black) lwidth(medthin) lpattern(dash) ///
+>         msymbol(circle) mcolor(black)) ///
+>     (connected checkup_1year year if ins_exp_group == 2, ///
+>         lcolor(gray) lwidth(medthick) lpattern(solid) ///
+>         msymbol(square) mcolor(gray)) ///
+>     (connected checkup_1year year if ins_exp_group == 3, ///
+>         lcolor(gray) lwidth(medthin) lpattern(dash) ///
+>         msymbol(triangle) mcolor(gray)) ///
+>     (connected checkup_1year year if ins_exp_group == 4, ///
+>         lcolor(gray) lwidth(medthin) lpattern(dash) ///
+>         msymbol(diamond) mcolor(gray)), ///
+>     xlabel(2011(1)2016, nogrid) ///
+>     ylabel(, nogrid format(%9.2f)) ///
+>     title("Annual Checkup Rate by Insurance and Expansion Status") ///
+>     xtitle("Year") ///
+>     ytitle("Checkup in Past Year") ///
+>     legend(order(1 "Insured, Expansion" ///
+>                  2 "Uninsured, Expansion" ///
+>                  3 "Insured, Non-expansion" ///
+>                  4 "Uninsured, Non-expansion") ///
+>            pos(6) row(2)) ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/checkup_trend_by_insuranceStat.png", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/checkup_trend_by_insuranceStat.png saved as PNG format
+
+. restore
+
+. 
+. *** Tables ***
+. *************************************************************************************************************************
+. 
+. *** Descriptive statistics ***
+. *************************************************************************************************************************
+. 
+. use "$master/d2011_2016", clear
+
+. 
+. svyset _psu [pweight=_llcpwt], strata(_ststr)
+
+Sampling weights: _llcpwt
+             VCE: linearized
+     Single unit: missing
+        Strata 1: _ststr
+ Sampling unit 1: _psu
+           FPC 1: <zero>
+
+. 
+. tab checkup_1year year, col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+| column percentage |
++-------------------+
+
+  Check-up |
+   in past |                               year
+      year |      2011       2012       2013       2014       2015       2016 |     Total
+-----------+------------------------------------------------------------------+----------
+        No |   109,690    101,572    104,319     92,487     86,115     90,423 |   584,606 
+           |     33.69      33.48      33.18      32.10      31.72      30.56 |     32.50 
+-----------+------------------------------------------------------------------+----------
+       Yes |   215,921    201,840    210,079    195,650    185,380    205,450 | 1,214,320 
+           |     66.31      66.52      66.82      67.90      68.28      69.44 |     67.50 
+-----------+------------------------------------------------------------------+----------
+     Total |   325,611    303,412    314,398    288,137    271,495    295,873 | 1,798,926 
+           |    100.00     100.00     100.00     100.00     100.00     100.00 |    100.00 
+
+. 
+. 
+. keep if low_income == 1
+(1,519,510 observations deleted)
+
+. 
+. 
+. tab checkup_1year year, col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+| column percentage |
++-------------------+
+
+  Check-up |
+   in past |                               year
+      year |      2011       2012       2013       2014       2015       2016 |     Total
+-----------+------------------------------------------------------------------+----------
+        No |    23,092     20,942     21,653     17,463     14,508     15,068 |   112,726 
+           |     40.79      39.65      39.45      37.87      35.64      33.47 |     38.06 
+-----------+------------------------------------------------------------------+----------
+       Yes |    33,516     31,878     33,237     28,655     26,197     29,950 |   183,433 
+           |     59.21      60.35      60.55      62.13      64.36      66.53 |     61.94 
+-----------+------------------------------------------------------------------+----------
+     Total |    56,608     52,820     54,890     46,118     40,705     45,018 |   296,159 
+           |    100.00     100.00     100.00     100.00     100.00     100.00 |    100.00 
+
+. 
+. gen group = .
+(301,065 missing values generated)
+
+. replace group = 1 if post == 0
+(228,401 real changes made)
+
+. replace group = 2 if post == 1
+(72,664 real changes made)
+
+. 
+. label define group_lbl ///
+>     1 "Full_pre" ///
+>     2 "Full_post" 
+
+. label values group group_lbl
+
+. 
+. gen group_sub = .
+(301,065 missing values generated)
+
+. replace group_sub = 3 if medicaid == 1 & post == 0
+(102,542 real changes made)
+
+. replace group_sub = 4 if medicaid == 1 & post == 1
+(72,028 real changes made)
+
+. replace group_sub = 5 if medicaid == 0 & post == 0
+(125,859 real changes made)
+
+. replace group_sub = 6 if medicaid == 0 & post == 1
+(636 real changes made)
+
+. 
+. label define group_sub_lbl ///
+>     3 "Pre non-expansion" ///
+>     4 "Post non-expansion" ///
+>         5 "Pre non-expansion" ///
+>     6 "Post non-expansion"
+
+. label values group_sub group_sub_lbl
+
+. 
+. local table1vars ///
+>     checkup_1year ///
+>     age25_29 age30_34 age35_39 age40_44 age45_49 age50_54 age55_59 age60_64 ///
+>     female black hispanic white married ///
+>     hsdegree somecollege collegegrad ///
+>     onechild twochildren threechildren fourchildren ///
+>     unemployed student ///
+>     inc10_15 inc15_20 inc20_25 inc25_35 inc35_50 inc50_75 inc75p
+
+. 
+. eststo clear
+
+. 
+. qui estpost summarize `table1vars' if group == 1 [aw=_llcpwt]
+
+. eststo full_pre
+
+. 
+. qui estpost summarize `table1vars' if group == 2 [aw=_llcpwt]
+
+. eststo full_post
+
+. 
+. qui estpost summarize `table1vars' if group_sub == 3 [aw=_llcpwt]
+
+. eststo pre_exp
+
+. 
+. qui estpost summarize `table1vars' if group_sub == 4 [aw=_llcpwt]
+
+. eststo post_exp
+
+. 
+. qui estpost summarize `table1vars' if group_sub == 5 [aw=_llcpwt]
+
+. eststo pre_nonexp
+
+. 
+. qui estpost summarize `table1vars' if group_sub == 6 [aw=_llcpwt]
+
+. eststo post_nonexp
+
+.         
+. esttab full_pre full_post pre_exp post_exp pre_nonexp post_nonexp, ///
+>     label nonumber noobs compress ///
+>     cells("mean(fmt(3)) sd(par fmt(3)) count(fmt(0))") ///
+>         stats(N, fmt(0) labels("Sample size")) ///
+>     mtitles("Pre" "Post" "Pre" "Post" "Pre" "Post") ///
+>         mgroups("Full sample" "Medicaid expansion" "Non-expansion", pattern(1 0 1 0 1 0)) ///
+>     title("Table 1 Descriptive Statistics: Low-Income Adults")
+
+Table 1 Descriptive Statistics: Low-Income Adults
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                 Full sa~e                                                   Medicai~n                                                   Non-exp~n                                                  
+                       Pre                          Post                           Pre                          Post                           Pre                          Post                    
+                      mean        sd     count      mean        sd     count      mean        sd     count      mean        sd     count      mean        sd     count      mean        sd     count
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Check-up in pa~r     0.570   (0.495)    224660     0.629   (0.483)     71499     0.570   (0.495)    101076     0.629   (0.483)     70880     0.570   (0.495)    123584     0.593   (0.492)       619
+Age 25-29            0.129   (0.335)    228401     0.123   (0.329)     72664     0.133   (0.340)    102542     0.123   (0.329)     72028     0.125   (0.331)    125859     0.138   (0.345)       636
+Age 30-34            0.150   (0.357)    228401     0.148   (0.355)     72664     0.150   (0.357)    102542     0.148   (0.355)     72028     0.149   (0.356)    125859     0.131   (0.338)       636
+Age 35-39            0.119   (0.323)    228401     0.119   (0.324)     72664     0.115   (0.319)    102542     0.119   (0.324)     72028     0.122   (0.327)    125859     0.145   (0.352)       636
+Age 40-44            0.115   (0.319)    228401     0.118   (0.323)     72664     0.115   (0.318)    102542     0.119   (0.323)     72028     0.115   (0.319)    125859     0.098   (0.298)       636
+Age 45-49            0.089   (0.285)    228401     0.088   (0.283)     72664     0.090   (0.286)    102542     0.088   (0.283)     72028     0.088   (0.284)    125859     0.096   (0.295)       636
+Age 50-54            0.099   (0.299)    228401     0.098   (0.298)     72664     0.096   (0.295)    102542     0.098   (0.298)     72028     0.101   (0.302)    125859     0.085   (0.279)       636
+Age 55-59            0.077   (0.266)    228401     0.083   (0.276)     72664     0.074   (0.261)    102542     0.083   (0.276)     72028     0.080   (0.271)    125859     0.085   (0.279)       636
+Age 60-64            0.067   (0.251)    228401     0.075   (0.263)     72664     0.064   (0.244)    102542     0.074   (0.262)     72028     0.070   (0.256)    125859     0.089   (0.285)       636
+Female               0.567   (0.495)    228400     0.570   (0.495)     72663     0.555   (0.497)    102542     0.570   (0.495)     72027     0.577   (0.494)    125858     0.538   (0.499)       636
+Black                0.196   (0.397)    225689     0.142   (0.349)     71499     0.158   (0.365)    101368     0.142   (0.349)     70873     0.228   (0.419)    124321     0.207   (0.406)       626
+Hispanic             0.325   (0.468)    225689     0.378   (0.485)     71499     0.344   (0.475)    101368     0.381   (0.486)     70873     0.308   (0.462)    124321     0.061   (0.240)       626
+White                0.412   (0.492)    225689     0.382   (0.486)     71499     0.412   (0.492)    101368     0.380   (0.485)     70873     0.412   (0.492)    124321     0.673   (0.470)       626
+Married              0.378   (0.485)    228401     0.373   (0.484)     72664     0.357   (0.479)    102542     0.373   (0.484)     72028     0.396   (0.489)    125859     0.340   (0.474)       636
+High school de~e     0.331   (0.471)    228048     0.320   (0.466)     72517     0.325   (0.468)    102384     0.320   (0.466)     71881     0.336   (0.472)    125664     0.364   (0.482)       636
+Some college         0.264   (0.441)    228048     0.265   (0.441)     72517     0.261   (0.439)    102384     0.264   (0.441)     71881     0.267   (0.442)    125664     0.351   (0.478)       636
+College graduate     0.072   (0.258)    228048     0.075   (0.264)     72517     0.075   (0.263)    102384     0.075   (0.263)     71881     0.069   (0.254)    125664     0.087   (0.281)       636
+One child            0.182   (0.386)    228401     0.186   (0.389)     72664     0.186   (0.389)    102542     0.186   (0.389)     72028     0.179   (0.384)    125859     0.172   (0.378)       636
+Two children         0.225   (0.417)    228401     0.218   (0.413)     72664     0.223   (0.416)    102542     0.219   (0.413)     72028     0.226   (0.418)    125859     0.195   (0.397)       636
+Three children       0.137   (0.343)    228401     0.133   (0.339)     72664     0.132   (0.339)    102542     0.133   (0.339)     72028     0.140   (0.347)    125859     0.102   (0.303)       636
+Four children        0.065   (0.246)    228401     0.060   (0.237)     72664     0.063   (0.242)    102542     0.060   (0.237)     72028     0.066   (0.249)    125859     0.067   (0.250)       636
+Unemployed           0.176   (0.381)    227419     0.145   (0.352)     72213     0.188   (0.391)    102151     0.145   (0.352)     71580     0.167   (0.373)    125268     0.149   (0.356)       633
+Student              0.071   (0.256)    228401     0.075   (0.264)     72664     0.078   (0.268)    102542     0.075   (0.264)     72028     0.065   (0.246)    125859     0.081   (0.274)       636
+Income $10k-$15k     0.242   (0.428)    228401     0.247   (0.431)     72664     0.248   (0.432)    102542     0.246   (0.431)     72028     0.237   (0.425)    125859     0.280   (0.450)       636
+Income $15k-$20k     0.210   (0.407)    228401     0.199   (0.399)     72664     0.196   (0.397)    102542     0.199   (0.399)     72028     0.222   (0.416)    125859     0.180   (0.385)       636
+Income $20k-$25k     0.142   (0.349)    228401     0.137   (0.343)     72664     0.132   (0.338)    102542     0.137   (0.343)     72028     0.151   (0.358)    125859     0.128   (0.334)       636
+Income $25k-$35k     0.089   (0.285)    228401     0.089   (0.284)     72664     0.087   (0.281)    102542     0.089   (0.284)     72028     0.092   (0.288)    125859     0.095   (0.294)       636
+Income $35k-$50k     0.017   (0.131)    228401     0.019   (0.136)     72664     0.018   (0.131)    102542     0.019   (0.135)     72028     0.017   (0.131)    125859     0.029   (0.169)       636
+Income $50k-$75k     0.000   (0.000)    228401     0.000   (0.000)     72664     0.000   (0.000)    102542     0.000   (0.000)     72028     0.000   (0.000)    125859     0.000   (0.000)       636
+Income >$75k         0.000   (0.000)    228401     0.000   (0.000)     72664     0.000   (0.000)    102542     0.000   (0.000)     72028     0.000   (0.000)    125859     0.000   (0.000)       636
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sample size         228401                         72664                        102542                         72028                        125859                           636                    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+. 
+. esttab full_pre full_post pre_exp post_exp pre_nonexp post_nonexp ///
+>         using "$log/table1_prepost.csv", replace ///
+>     label nonumber noobs compress ///
+>     cells("mean(fmt(3)) sd(par fmt(3))") ///
+>         stats(N, fmt(0) labels("Sample size")) ///
+>     mtitles("Pre" "Post" "Pre" "Post" "Pre" "Post") ///
+>         mgroups("Full sample" "Medicaid expansion" "Non-expansion", pattern(1 0 1 0 1 0)) ///
+>     title("Table 1 Descriptive Statistics: Low-Income Adults")
+(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/table1_prepost.csv)
+
+. 
+. 
+. *** Difference-in-differences model ***
+. *************************************************************************************************************************
+. 
+. gen DiD = medicaid * post
+
+. 
+. eststo clear
+
+. reghdfe checkup_1year DiD i.age_cat female i.race i.marital_status ///
+>     i.educa_lvl i.income_cat i.num_children unemployed student ///
+>     [pw=_llcpwt], absorb(_state year) vce(cluster _state)
+(MWFE estimator converged in 4 iterations)
+
+HDFE Linear regression                            Number of obs   =    290,669
+Absorbing 2 HDFE groups                           F(  29,     50) =     907.63
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.0666
+                                                  Adj R-squared   =     0.0663
+                                                  Within R-sq.    =     0.0496
+Number of clusters (_state)  =         51         Root MSE        =     0.4759
+
+                                       (Std. err. adjusted for 51 clusters in _state)
+-------------------------------------------------------------------------------------
+                    |               Robust
+      checkup_1year | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+                DiD |   .0233609   .0091814     2.54   0.014     .0049196    .0418023
+                    |
+            age_cat |
+             25-29  |  -.0083091   .0065542    -1.27   0.211    -.0214735    .0048553
+             30-34  |   .0017614   .0063083     0.28   0.781    -.0109091    .0144319
+             35-39  |   .0131454   .0071773     1.83   0.073    -.0012706    .0275613
+             40-44  |   .0434667   .0097123     4.48   0.000     .0239589    .0629745
+             45-49  |   .0780907   .0101112     7.72   0.000     .0577819    .0983996
+             50-54  |   .1221566   .0084872    14.39   0.000     .1051095    .1392037
+             55-59  |   .1777521   .0113655    15.64   0.000     .1549239    .2005804
+             60-64  |   .2074994   .0103616    20.03   0.000     .1866875    .2283113
+                    |
+             female |   .1208417   .0040778    29.63   0.000     .1126513    .1290322
+                    |
+               race |
+Non-Hispanic White  |  -.0498294   .0070669    -7.05   0.000    -.0640237   -.0356351
+Non-Hispanic Black  |   .1034394   .0066877    15.47   0.000     .0900068    .1168721
+          Hispanic  |  -.0361512   .0060813    -5.94   0.000    -.0483659   -.0239366
+                    |
+     marital_status |
+           Married  |   .0106818   .0026903     3.97   0.000     .0052781    .0160855
+                    |
+          educa_lvl |
+       High School  |   .0342875   .0054654     6.27   0.000     .0233099    .0452651
+      Some College  |   .0300855   .0046537     6.46   0.000     .0207382    .0394327
+      College Grad  |   .0129292   .0063665     2.03   0.048     .0001417    .0257168
+                    |
+         income_cat |
+         $10k-$15k  |  -.0093266    .004441    -2.10   0.041    -.0182465   -.0004066
+         $15k-$20k  |  -.0291546   .0067997    -4.29   0.000    -.0428122   -.0154971
+         $20k-$25k  |  -.0112026   .0082136    -1.36   0.179    -.0277001    .0052949
+         $25k-$35k  |  -.0061045   .0094529    -0.65   0.521    -.0250911    .0128821
+         $35k-$50k  |  -.0097837   .0195976    -0.50   0.620    -.0491465    .0295792
+                    |
+       num_children |
+         One child  |   .0127893   .0049676     2.57   0.013     .0028117     .022767
+      Two children  |   .0084742   .0067271     1.26   0.214    -.0050376     .021986
+    Three children  |  -.0026461   .0096615    -0.27   0.785    -.0220517    .0167596
+     Four children  |  -.0034026   .0088231    -0.39   0.701    -.0211244    .0143192
+    Five+ children  |  -.0297504   .0132858    -2.24   0.030    -.0564357   -.0030652
+                    |
+         unemployed |   -.054441   .0076099    -7.15   0.000     -.069726    -.039156
+            student |   .0253234    .008716     2.91   0.005     .0078168      .04283
+              _cons |   .4627141    .012527    36.94   0.000     .4375529    .4878752
+-------------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+      _state |        51          51           0    *|
+        year |         6           1           5     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. eststo lowinc
+
+. 
+. esttab lowinc, replace ///
+> keep(DiD) b(%9.3f) se(%9.3f)star(* 0.10 ** 0.05 *** 0.01)
+
+----------------------------
+                      (1)   
+             checkup_1y~r   
+----------------------------
+DiD                 0.023** 
+                  (0.009)   
+----------------------------
+N                  290669   
+----------------------------
+Standard errors in parentheses
+* p<0.10, ** p<0.05, *** p<0.01
+
+. 
+. esttab lowinc using "$log/FullDiD_checkup_lowinc.csv", replace
+(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/FullDiD_checkup_lowinc.csv)
+
+. 
+. esttab lowinc using "$log/OnlyDiD_checkup_lowinc.csv", replace ///
+> keep(DiD) b(%9.3f) se(%9.3f) star(* 0.10 ** 0.05 *** 0.01)
+(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/OnlyDiD_checkup_lowinc.csv)
+
+. 
+. 
+. *** Event-study model ***
+. *************************************************************************************************************************
+. 
+. gen med_yr2011 = medicaid * (year == 2011)
+
+. gen med_yr2012 = medicaid * (year == 2012)
+
+. gen med_yr2014 = medicaid * (year == 2014)
+
+. gen med_yr2015 = medicaid * (year == 2015)
+
+. gen med_yr2016 = medicaid * (year == 2016)
+
+. 
+. eststo clear
+
+. reghdfe checkup_1year med_yr2011 med_yr2012 med_yr2014 med_yr2015 med_yr2016 ///
+>     i.age_cat female i.race i.marital_status i.educa_lvl i.income_cat ///
+>     i.num_children unemployed student ///
+>     [pw=_llcpwt] if low_income == 1, absorb(_state year) vce(cluster _state)
+(MWFE estimator converged in 4 iterations)
+
+HDFE Linear regression                            Number of obs   =    290,669
+Absorbing 2 HDFE groups                           F(  33,     50) =    1164.57
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.0666
+                                                  Adj R-squared   =     0.0663
+                                                  Within R-sq.    =     0.0496
+Number of clusters (_state)  =         51         Root MSE        =     0.4759
+
+                                       (Std. err. adjusted for 51 clusters in _state)
+-------------------------------------------------------------------------------------
+                    |               Robust
+      checkup_1year | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+         med_yr2011 |   .0221573   .0180876     1.23   0.226    -.0141727    .0584874
+         med_yr2012 |   .0286169   .0148355     1.93   0.059     -.001181    .0584148
+         med_yr2014 |   .0379757   .0093404     4.07   0.000     .0192149    .0567365
+         med_yr2015 |   .0417694   .0084814     4.92   0.000     .0247339    .0588049
+         med_yr2016 |    .039374   .0129156     3.05   0.004     .0134323    .0653157
+                    |
+            age_cat |
+             25-29  |  -.0082646   .0066364    -1.25   0.219    -.0215943     .005065
+             30-34  |   .0018062   .0062562     0.29   0.774    -.0107596    .0143721
+             35-39  |   .0131985    .007163     1.84   0.071    -.0011888    .0275858
+             40-44  |   .0434401   .0096815     4.49   0.000     .0239943     .062886
+             45-49  |   .0781586   .0101079     7.73   0.000     .0578563    .0984608
+             50-54  |   .1222001   .0084985    14.38   0.000     .1051303      .13927
+             55-59  |    .177793   .0113663    15.64   0.000     .1549632    .2006229
+             60-64  |   .2074896   .0103425    20.06   0.000     .1867161    .2282631
+                    |
+             female |   .1208091    .004084    29.58   0.000     .1126062     .129012
+                    |
+               race |
+Non-Hispanic White  |  -.0498734   .0071084    -7.02   0.000     -.064151   -.0355957
+Non-Hispanic Black  |   .1034398   .0067176    15.40   0.000      .089947    .1169326
+          Hispanic  |  -.0361777    .006065    -5.97   0.000    -.0483595   -.0239958
+                    |
+     marital_status |
+           Married  |   .0107409   .0026879     4.00   0.000     .0053421    .0161396
+                    |
+          educa_lvl |
+       High School  |   .0342611   .0054255     6.31   0.000     .0233636    .0451586
+      Some College  |   .0300663    .004638     6.48   0.000     .0207506    .0393819
+      College Grad  |   .0128893   .0063709     2.02   0.048     .0000929    .0256857
+                    |
+         income_cat |
+         $10k-$15k  |  -.0093648   .0044401    -2.11   0.040    -.0182831   -.0004466
+         $15k-$20k  |  -.0291876   .0067818    -4.30   0.000    -.0428093   -.0155659
+         $20k-$25k  |  -.0112641   .0082132    -1.37   0.176    -.0277608    .0052325
+         $25k-$35k  |  -.0062095   .0094201    -0.66   0.513    -.0251303    .0127113
+         $35k-$50k  |   -.009667   .0196551    -0.49   0.625    -.0491456    .0298115
+                    |
+       num_children |
+         One child  |   .0127524   .0050021     2.55   0.014     .0027055    .0227993
+      Two children  |   .0084026   .0067297     1.25   0.218    -.0051143    .0219196
+    Three children  |  -.0026976   .0096455    -0.28   0.781    -.0220711    .0166759
+     Four children  |  -.0035992   .0087815    -0.41   0.684    -.0212373    .0140388
+    Five+ children  |  -.0297493    .013263    -2.24   0.029    -.0563888   -.0031097
+                    |
+         unemployed |  -.0543582   .0076297    -7.12   0.000    -.0696828   -.0390335
+            student |    .025378   .0086651     2.93   0.005     .0079735    .0427824
+              _cons |   .4524031   .0121949    37.10   0.000     .4279089    .4768972
+-------------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+      _state |        51          51           0    *|
+        year |         6           1           5     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. eststo eventstudy
+
+. 
+. esttab eventstudy ///
+>     using "$log/eventstudy_checkup_lowinc.csv", replace ///
+>     keep(med_yr2011 med_yr2012 med_yr2014 med_yr2015 med_yr2016) ///
+>     b(%9.3f) se(%9.3f) star(* 0.10 ** 0.05 *** 0.01) ///
+>     mtitles("Event-study low-income group")
+(output written to /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/eventstudy_checkup_lowinc.csv)
+
+. 
+.         
+. *** Checks for the difference between descriptive and regression sample size ***
+. *************************************************************************************************************************
+. 
+. count if low_income == 1
+  301,065
+
+. count if low_income == 1 & !missing(checkup_1year, DiD, age_cat, female, race, marital_status, educa_lvl, income_cat, num_children, unemployed, student, _llcpwt, _state, year)
+  290,669
+
+.         
+. 
+. save "$master/t2011_2016", replace
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/master/t2011_2016.dta saved
+
+. 
+. 
+. *** Event-study coefficient plot ***
+. *************************************************************************************************************************
+. 
+. use "$master/t2011_2016", clear
+
+. 
+. preserve
+
+. clear
+
+. input year b se
+
+          year          b         se
+  1. 2011 . .
+  2. 2012 . .
+  3. 2013 0 0
+  4. 2014 . .
+  5. 2015 . .
+  6. 2016 . .
+  7. end
+
+. 
+. replace b  = _b[med_yr2011] in 1
+(1 real change made)
+
+. replace se = _se[med_yr2011] in 1
+(1 real change made)
+
+. replace b  = _b[med_yr2012] in 2
+(1 real change made)
+
+. replace se = _se[med_yr2012] in 2
+(1 real change made)
+
+. replace b  = _b[med_yr2014] in 4
+(1 real change made)
+
+. replace se = _se[med_yr2014] in 4
+(1 real change made)
+
+. replace b  = _b[med_yr2015] in 5
+(1 real change made)
+
+. replace se = _se[med_yr2015] in 5
+(1 real change made)
+
+. replace b  = _b[med_yr2016] in 6
+(1 real change made)
+
+. replace se = _se[med_yr2016] in 6
+(1 real change made)
+
+. 
+. gen lb = b - 1.96 * se
+
+. gen ub = b + 1.96 * se
+
+. 
+. twoway ///
+>     (line ub year, lcolor(black) lpattern(dash) lwidth(medthin)) ///
+>     (line lb year, lcolor(black) lpattern(dash) lwidth(medthin)) ///
+>     (connected b year, lcolor(black) lpattern(solid) lwidth(medium) ///
+>         msymbol(circle) mcolor(black) msize(medium)), ///
+>     yline(0, lpattern(solid) lcolor(gs8) lwidth(thin)) ///
+>     xline(2014, lpattern(solid) lcolor(gs8) lwidth(thin)) ///
+>     xlabel(2011(1)2016) ///
+>     ylabel(, format(%9.2f)) ///
+>     xtitle("Year") ///
+>     ytitle("Coefficient Estimate") ///
+>     legend(off) ///
+>     graphregion(color(white)) ///
+>     plotregion(color(white)) ///
+>     scheme(s2mono)
+
+. 
+. graph export "$graphs/eventstudy_checkup_lowinc.png", replace width(2000)
+file /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/graphs/eventstudy_checkup_lowinc.png saved as PNG format
+
+. restore
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/checkup.log
+  log type:  text
+ closed on:  30 Apr 2026, 04:47:07
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
