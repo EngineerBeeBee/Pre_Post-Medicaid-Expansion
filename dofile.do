@@ -1,4 +1,4 @@
-log using "/Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp/log/checkup.log", replace
+log using "filepath.log", replace
 
 
 *************************************************************************************************************************
@@ -14,7 +14,7 @@ set more off
 
 *************************************************************************************************************************
 
-global projACA  "/Users/bolanleazeez/Library/CloudStorage/GoogleDrive-bba05@tamu.edu/My Drive/1ACA_CheckUp"
+global projACA  "filepath"
 global raw    "$projACA/raw"
 global clean  "$projACA/clean"
 global temp   "$projACA/temp"
